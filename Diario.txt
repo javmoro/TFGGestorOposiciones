@@ -1,0 +1,10 @@
+29/01/2021
+Dirección XML del boe: https://boe.es/diario_boe/xml.php?id=BOE-S-AAAAMMDD
+Sección: nombre = II. Autoridades y personal. - B. Oposiciones y concursos
+
+La sección se divide en departamentos asociados a la comunidad autónoma o al ministerio:
+Ministerio del interior, Ministerio de Cultura y Deporte, Administración Local, Comunidad autónoma del PV...
+
+Cada oposición tiene tiene asociado una URL con información más detallada: boe.es//diario_boe/xml.php?id=BOE-A-2021-1211
+
+
