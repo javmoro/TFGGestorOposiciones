@@ -6,6 +6,8 @@
 package persistencia;
 
 import dominio.Epigrafe;
+import dominio.Oposicion;
+import dominio.RelDepEpi;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +31,9 @@ public interface EpigrafeFacadeLocal {
     List<Epigrafe> findRange(int[] range);
 
     int count();
+
+
+    List<RelDepEpi> findDep(String id);
+
     
 }

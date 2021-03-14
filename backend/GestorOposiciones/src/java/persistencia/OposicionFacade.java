@@ -6,9 +6,11 @@
 package persistencia;
 
 import dominio.Oposicion;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import persistencia.AbstractFacade;
 
 /**
  *
@@ -26,6 +28,10 @@ public class OposicionFacade extends AbstractFacade<Oposicion> implements Oposic
 
     public OposicionFacade() {
         super(Oposicion.class);
+    }
+    @Override
+    public List<Oposicion> findOposicion(String etqDep, String nombreEp) {
+        return  getEntityManager().createQuery("SELECT o FROM Oposicion o WHERE o.relDepEpi.relDepEpiPK.etqdep = :etqdep AND o.relDepEpi.relDepEpiPK.nombreep = :nombreEp").setParameter("etqdep",etqDep).setParameter("nombreEp",nombreEp).getResultList(); 
     }
     
 }

@@ -6,9 +6,13 @@
 package persistencia;
 
 import dominio.Departamento;
+import dominio.Oposicion;
+import dominio.RelDepEpi;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import persistencia.AbstractFacade;
 
 /**
  *
@@ -27,5 +31,9 @@ public class DepartamentoFacade extends AbstractFacade<Departamento> implements 
     public DepartamentoFacade() {
         super(Departamento.class);
     }
+      public List<RelDepEpi> findEpi(String etqDep){
+        return  getEntityManager().createQuery("SELECT r FROM RelDepEpi r WHERE r.relDepEpiPK.etqdep = :etqdep").setParameter("etqdep",etqDep).getResultList(); 
+    }
+
     
 }

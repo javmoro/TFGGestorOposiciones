@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistencia;
 
 import dominio.Departamento;
+import dominio.Oposicion;
+import dominio.RelDepEpi;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -27,7 +24,7 @@ public interface DepartamentoFacadeLocal {
     List<Departamento> findAll();
 
     List<Departamento> findRange(int[] range);
-
+    List<RelDepEpi> findEpi(String nombre);
     int count();
     
 }

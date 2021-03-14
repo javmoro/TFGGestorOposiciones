@@ -6,9 +6,13 @@
 package persistencia;
 
 import dominio.Epigrafe;
+import dominio.Oposicion;
+import dominio.RelDepEpi;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import persistencia.AbstractFacade;
 
 /**
  *
@@ -26,6 +30,12 @@ public class EpigrafeFacade extends AbstractFacade<Epigrafe> implements Epigrafe
 
     public EpigrafeFacade() {
         super(Epigrafe.class);
+    }
+
+
+
+     public List<RelDepEpi> findDep(String nombreEp){
+        return  getEntityManager().createQuery("SELECT r FROM RelDepEpi r WHERE r.relDepEpiPK.nombreep = :nombreep").setParameter("nombreep",nombreEp).getResultList(); 
     }
     
 }
