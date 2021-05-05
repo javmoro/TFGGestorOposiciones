@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package dominio;
-
+import java.sql.Date;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -42,9 +42,9 @@ public class Oposicion implements Serializable {
     private String id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 8)
+
     @Column(name = "FECHA")
-    private String fecha;
+    private Date fecha;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -63,7 +63,7 @@ public class Oposicion implements Serializable {
         this.id = id;
     }
 
-    public Oposicion(String id, String fecha, String control) {
+    public Oposicion(String id, Date fecha, String control) {
         this.id = id;
         this.fecha = fecha;
         this.control = control;
@@ -77,11 +77,11 @@ public class Oposicion implements Serializable {
         this.id = id;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

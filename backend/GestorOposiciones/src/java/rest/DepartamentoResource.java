@@ -22,6 +22,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 import persistencia.DepartamentoFacadeLocal;
 import persistencia.OposicionFacadeLocal;
 import persistencia.RelDepEpiFacadeLocal;
@@ -50,33 +52,62 @@ public class DepartamentoResource {
      * Retrieves representation of an instance of rest.GenericResource
      * @return an instance of java.lang.String
      */
+    /*
     @GET
     @Produces({"application/xml", "application/json"})
     public List<Departamento> findAll() {
         return departamentoFacade.findAll();
     }
-    
+    */
+    @GET
+    @Produces({"application/xml", "application/json"})
+    public Response findAll(@QueryParam("page") int page) {
+         if(page!=0){
+            page--;
+        }
+        int array[] = new int[2];
+        array[0] = page*10;
+        array[1] = array[0]+9;
+        return Response.status(Response.Status.OK)// Si si esta autenticado
+                    .entity(departamentoFacade.findRange(array).toArray(new Departamento[0])).status(oposicionFacade.count())
+                    .build();
+    }
+     
     @GET
     @Path("{id}")
-    @Produces({"application/xml", "application/json"})
+    @Produces( "application/json")
     public Departamento find(@PathParam("id") String id) {
         return departamentoFacade.find(id);
     }
     
     @GET
     @Path("{id}/epigrafes")
-    @Produces({"application/xml", "application/json"})
-    public List<RelDepEpi> findEpigrafe(@PathParam("id") String id) {
-        return departamentoFacade.findEpi(id);
+    @Produces( "application/json")
+    public List<RelDepEpi> findEpigrafe(@PathParam("id") String id,@QueryParam("page") int page) {
+         if(page!=0){
+            page--;
+        }
+        int array[] = new int[2];
+        array[0] = page*10;
+        array[1] = array[0]+9;
+        return departamentoFacade.findEpi(id,array);
     }
-    
+    //?page=3
     @GET
     @Path("{id}/epigrafes/{nombreEp}/oposiciones")
-    @Produces({"application/xml", "application/json"})
-    public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("nombreEp") String nombreEp) {
-        return oposicionFacade.findOposicion(id,nombreEp);
+    @Produces( "application/json")
+    public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("nombreEp") String nombreEp,@QueryParam("page") int page) {
+         if(page!=0){
+            page--;
+        }
+        int array[] = new int[2];
+        array[0] = page*10;
+        array[1] = array[0]+9;
+        return oposicionFacade.findOposicion(id,nombreEp,array);
     }
 
+
+    
 
     private DepartamentoFacadeLocal lookupDepartamentoFacadeLocal() {
         try {

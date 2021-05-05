@@ -34,8 +34,11 @@ public class EpigrafeFacade extends AbstractFacade<Epigrafe> implements Epigrafe
 
 
 
-     public List<RelDepEpi> findDep(String nombreEp){
-        return  getEntityManager().createQuery("SELECT r FROM RelDepEpi r WHERE r.relDepEpiPK.nombreep = :nombreep").setParameter("nombreep",nombreEp).getResultList(); 
+     public List<RelDepEpi> findDep(String nombreEp, int[] array){
+        javax.persistence.Query q = getEntityManager().createQuery("SELECT r FROM RelDepEpi r WHERE r.relDepEpiPK.nombreep = :nombreep").setParameter("nombreep",nombreEp);
+        q.setMaxResults(array[1] - array[0] + 1);
+        q.setFirstResult(array[0]);
+        return  q.getResultList(); 
     }
     
 }

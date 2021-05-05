@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;  
  
 import Dominio.Departamento;
 import Dominio.Epigrafe;
@@ -7,6 +8,7 @@ import Dominio.RelDepEpiPK;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -98,7 +100,10 @@ public class OpoDB {
                 for(int y = 0 ; y <items.getLength(); y++){
                     Node ny = items.item(y);
                     Element item = (Element) ny;
-                    Oposicion opo = new Oposicion(item.getAttribute("id"),fecha,item.getAttribute("control"));
+                    
+                    Date f = Date.valueOf(Integer.valueOf(fecha.substring(0, 4))+"-"+Integer.valueOf(fecha.substring(4, 6))+"-"+Integer.valueOf(fecha.substring(6)));
+                    //Date f = new Date(Integer.valueOf(fecha.substring(0, 4)),Integer.valueOf(fecha.substring(4, 6)),Integer.valueOf(fecha.substring(6)));
+                    Oposicion opo = new Oposicion(item.getAttribute("id"),f,item.getAttribute("control"));
                     opo.setRelDepEpi(rel);
                     anadirOposicionBD(opo);
                     //System.out.println("\t\t\t"+item.getAttribute("id"));
@@ -183,7 +188,7 @@ private static String getFecha(LocalDate date) {
         try {
         st = con.prepareStatement("insert into OPOSICION(ID,FECHA,CONTROL,NOMBREEP,ETQDEP)values(?,?,?,?,?)");
         st.setString(1, opo.getId());
-        st.setString(2, opo.getFecha());
+        st.setDate(2, opo.getFecha());
         st.setString(3, opo.getControl());
         st.setString(4, opo.getRelDepEpi().getEpigrafe().getNombre());
         st.setString(5, opo.getRelDepEpi().getDepartamento().getEtq());

@@ -24,7 +24,7 @@ public interface DepartamentoFacadeLocal {
     List<Departamento> findAll();
 
     List<Departamento> findRange(int[] range);
-    List<RelDepEpi> findEpi(String nombre);
+    List<RelDepEpi> findEpi(String etqDep, int[] array);
     int count();
     
 }

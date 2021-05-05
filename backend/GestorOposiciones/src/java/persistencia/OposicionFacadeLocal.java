@@ -29,6 +29,6 @@ public interface OposicionFacadeLocal {
     List<Oposicion> findRange(int[] range);
 
     int count();
-    List<Oposicion> findOposicion(String etqDep, String nombreEp);
+    List<Oposicion> findOposicion(String etqDep, String nombreEp,int array[]);
 
 }

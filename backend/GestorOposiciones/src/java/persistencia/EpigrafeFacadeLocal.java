@@ -33,7 +33,7 @@ public interface EpigrafeFacadeLocal {
     int count();
 
 
-    List<RelDepEpi> findDep(String id);
+    List<RelDepEpi> findDep(String id,int array[]);
 
     
 }
