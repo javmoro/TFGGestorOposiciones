@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package persistencia;
-
 import dominio.Epigrafe;
 import dominio.Oposicion;
 import dominio.RelDepEpi;
@@ -31,7 +30,13 @@ public class EpigrafeFacade extends AbstractFacade<Epigrafe> implements Epigrafe
     public EpigrafeFacade() {
         super(Epigrafe.class);
     }
-
+    @Override
+    public List<Epigrafe> findRange(int array[]){
+        javax.persistence.Query q = getEntityManager().createQuery("SELECT o FROM Epigrafe o ORDER BY o.nombre ASC");
+        q.setMaxResults(array[1] - array[0] + 1);
+        q.setFirstResult(array[0]);
+        return  q.getResultList();
+    }
 
 
      public List<RelDepEpi> findDep(String nombreEp, int[] array){

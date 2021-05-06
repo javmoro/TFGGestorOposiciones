@@ -6,12 +6,14 @@ import { DataService } from './shared/data.service';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 import { OposicionesComponent } from './oposiciones/oposiciones.component';
-
+import { DepartamentosComponent} from './departamentos/departamentos.component';
+import { EpigrafesComponent} from './epigrafes/epigrafes.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { HeaderComponent } from './header/header.component';
 @NgModule({
-  declarations: [AppComponent,OposicionesComponent],
+  declarations: [AppComponent,OposicionesComponent,HeaderComponent,DepartamentosComponent,EpigrafesComponent],
   entryComponents: [],
   
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule],

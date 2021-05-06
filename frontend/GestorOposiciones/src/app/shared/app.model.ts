@@ -15,11 +15,14 @@ export interface RelDepEpi{
     relDepEpiPK: RelDepEpiPK
 }
 
-export interface Oposicion {
-    control: String,
-    fecha: String,
-    id: String,
-    relDepEpi: RelDepEpi
+export class Oposicion {
+    readonly control: String;
+    fecha: String;
+    id: String;
+    relDepEpi: RelDepEpi;
+    constructor(_control? : String, fecha? : String){
+        this.id = _control || "";
+    }
 }
 
 

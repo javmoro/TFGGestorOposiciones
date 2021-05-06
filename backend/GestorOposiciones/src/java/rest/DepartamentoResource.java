@@ -23,6 +23,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Response;
 import persistencia.DepartamentoFacadeLocal;
 import persistencia.OposicionFacadeLocal;
@@ -34,14 +37,19 @@ import persistencia.RelDepEpiFacadeLocal;
  * @author javie
  */
 @Path("departamento")
-public class DepartamentoResource {
+public class DepartamentoResource implements ContainerResponseFilter{
     OposicionFacadeLocal oposicionFacade = lookupOposicionFacadeLocal();
 
     DepartamentoFacadeLocal departamentoFacade = lookupDepartamentoFacadeLocal();
 
     @Context
     private UriInfo context;
-
+    @Override
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext response) {
+        response.getHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getHeaders().putSingle("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, DELETE");
+        response.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    }
     /**
      * Creates a new instance of GenericResource
      */
@@ -61,16 +69,14 @@ public class DepartamentoResource {
     */
     @GET
     @Produces({"application/xml", "application/json"})
-    public Response findAll(@QueryParam("page") int page) {
+    public Departamento[] findAll(@QueryParam("page") int page) {
          if(page!=0){
             page--;
         }
         int array[] = new int[2];
         array[0] = page*10;
         array[1] = array[0]+9;
-        return Response.status(Response.Status.OK)// Si si esta autenticado
-                    .entity(departamentoFacade.findRange(array).toArray(new Departamento[0])).status(oposicionFacade.count())
-                    .build();
+        return departamentoFacade.findRange(array).toArray(new Departamento[0]);
     }
      
     @GET

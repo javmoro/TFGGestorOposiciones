@@ -41,8 +41,8 @@ import persistencia.OposicionFacadeLocal;
  *
  * @author javie
  */
-@Path("epigrafes")
-public class EpigrafeResource {
+@Path("epigrafe")
+public class EpigrafeResource implements ContainerResponseFilter{
     OposicionFacadeLocal oposicionFacade = lookupOposicionFacadeLocal();
     EpigrafeFacadeLocal epigrafeFacade = lookupEpigrafeFacadeLocal();
     private static final String SERV_ERR="Error en el sistema al acceder a la configuracion";
@@ -54,7 +54,13 @@ public class EpigrafeResource {
     private static final String ERR_AUTH="No tiene permisos para realizar esa operacion";
     @Context
     private UriInfo context;
-
+    
+    @Override
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext response) {
+        response.getHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        response.getHeaders().putSingle("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, DELETE");
+        response.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    }
     /**
      * Creates a new instance of EpigrafeResource
      */
@@ -62,16 +68,14 @@ public class EpigrafeResource {
     }
     @GET
     @Produces( "application/json")
-    public Response findAll(@QueryParam("page") int page) {
+    public Epigrafe[] findAll(@QueryParam("page") int page) {
         if(page!=0){
             page--;
         }
         int array[] = new int[2];
         array[0] = page*10;
         array[1] = array[0]+9;
-        return Response.status(Response.Status.OK)// Si si esta autenticado
-                    .entity(epigrafeFacade.findRange(array).toArray(new Epigrafe[0])).status(oposicionFacade.count())
-                    .build();
+        return epigrafeFacade.findRange(array).toArray(new Epigrafe[0]);
     }
     
     @GET

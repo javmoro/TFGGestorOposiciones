@@ -27,15 +27,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
           </ion-row>
           <ion-row>
             <ion-col >
-              <ion-list size="200" *ngFor="let opos of oposiciones">
-                  <ion-item [routerLink]="['/oposiciones/',opos.id]">
+              <ion-list size="200" *ngFor="let dep of departamentos">
+                  <ion-item [routerLink]="['/departamentos/',dep.etq]">
                     <div class="w3-row"><!--
                       <div class="w3-col m2 text-center">
                         <img class="w3-circle" src="/w3images/avatar3.png" style="width:96px;height:96px">
                       </div>-->
                       <div class="w3-col m20 w3-container"  >
-                        <h4 >{{opos.relDepEpi.relDepEpiPK.nombreep}} <span class="w3-opacity w3-medium">{{opos.fecha}}</span></h4>
-                        <p>{{opos.relDepEpi.departamento.nombre}}</p>
+                        <h4 >{{dep.nombre}} <span class="w3-opacity w3-medium">{{dep.etq}}</span></h4>
 
                       </div>
                     </div>

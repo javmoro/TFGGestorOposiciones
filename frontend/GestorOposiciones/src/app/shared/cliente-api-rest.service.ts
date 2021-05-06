@@ -45,10 +45,19 @@ export class ClienteApiRestService {
     let url = ClienteApiRestService.BASE_URI + '/departamento/'+etqdep;
     return this.http.get<Departamento>(url, {observe : 'response', headers: this.headers.value});
   }
+  getDepartamentos(pagina:Number) : Observable<HttpResponse<Departamento[]>>{
+    let url = ClienteApiRestService.BASE_URI + '/departamento?page='+pagina;
+    return this.http.get<Departamento[]>(url, {observe: 'response', headers: this.headers.value});
+  }
   getAllEpigrafes() : Observable<HttpResponse<Epigrafe[]>>{
     let url = ClienteApiRestService.BASE_URI + '/epigrafe';
     return this.http.get<Epigrafe[]>(url, {observe: 'response', headers: this.headers.value});
   }
+  getEpigrafes(pagina:Number) : Observable<HttpResponse<Epigrafe[]>>{
+    let url = ClienteApiRestService.BASE_URI + '/epigrafe?page='+pagina;
+    return this.http.get<Epigrafe[]>(url, {observe: 'response', headers: this.headers.value});
+  }
+
   getEpigrafe(nombreep: String): Observable<HttpResponse<Epigrafe>>{
     let url = ClienteApiRestService.BASE_URI + '/epigrafe/'+nombreep;
     return this.http.get<Epigrafe>(url, {observe : 'response', headers: this.headers.value});

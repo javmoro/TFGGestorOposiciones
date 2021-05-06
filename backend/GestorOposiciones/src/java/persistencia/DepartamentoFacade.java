@@ -31,7 +31,13 @@ public class DepartamentoFacade extends AbstractFacade<Departamento> implements 
     public DepartamentoFacade() {
         super(Departamento.class);
     }
-    
+    @Override
+    public List<Departamento> findRange(int array[]){
+        javax.persistence.Query q = getEntityManager().createQuery("SELECT o FROM Departamento o ORDER BY o.nombre ASC");
+        q.setMaxResults(array[1] - array[0] + 1);
+        q.setFirstResult(array[0]);
+        return  q.getResultList();
+    }
     public List<RelDepEpi> findEpi(String etqDep, int[] array){
         javax.persistence.Query q = getEntityManager().createQuery("SELECT r FROM RelDepEpi r WHERE r.relDepEpiPK.etqdep = :etqdep").setParameter("etqdep",etqDep);
         q.setMaxResults(array[1] - array[0] + 1);

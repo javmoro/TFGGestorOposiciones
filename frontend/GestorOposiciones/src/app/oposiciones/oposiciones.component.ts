@@ -15,7 +15,7 @@ export class OposicionesComponent {
   pagina:number;
   constructor(private clienteApiRestService:ClienteApiRestService, private datos: DataService) {
     this.oposiciones = [];
-    this.pagina = 0;
+    this.pagina = 1;
     this.getOposicion("BOE-A-2020-7");
     this.getOposiciones();
     this.getCount(10);
