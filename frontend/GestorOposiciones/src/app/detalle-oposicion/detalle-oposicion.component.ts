@@ -13,22 +13,28 @@ export class DetalleOposicionComponent implements OnInit {
   oposicion:Oposicion;
   constructor( private ruta: ActivatedRoute,private clienteApiRestService:ClienteApiRestService, private datos: DataService) { 
     this.oposicion = new Oposicion();
+    
   }
-
+  
   ngOnInit() {
     this.ruta.paramMap.subscribe(
       params => {
         this.id  = params.get('idOp');
         this.getOposicion(this.id);
+        
       },
       err => console.log("Error al leer id para editar: " + err)
     )
+    
+    /*
+    */
   }
   getOposicion(num: String){
     this.clienteApiRestService.getOposicion(num).subscribe(
       resp=>{
         if (resp.status < 400) {
           this.oposicion = resp.body ;
+          window.location.href = this.oposicion.urlpdf+"";
         }
         else{
           this.datos.cambiarMensaje(new Mensaje("Error al acceder a las oposiciones"));  

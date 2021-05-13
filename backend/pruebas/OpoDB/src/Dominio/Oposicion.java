@@ -42,7 +42,14 @@ public class Oposicion implements Serializable {
         @JoinColumn(name = "ETQDEP", referencedColumnName = "ETQDEP")})
     @ManyToOne(optional = false)
     private RelDepEpi relDepEpi;
-
+    @Column(name = "URLPDF")
+    private String urlpdf;
+    @Column(name = "URLXML")
+    private String urlxml;
+    @Column(name = "TITULO")
+    private String titulo;
+    @Column(name = "CONTENIDO")
+    private String contenido;
     public Oposicion() {
     }
 
@@ -50,12 +57,34 @@ public class Oposicion implements Serializable {
         this.id = id;
     }
 
-    public Oposicion(String id, Date fecha, String control) {
+    public Oposicion(String id, Date fecha, String control,String urlpdf, String urlxml,String titulo) {
         this.id = id;
         this.fecha = fecha;
         this.control = control;
+        this.urlpdf = urlpdf;
+        this.urlxml = urlxml;
+        this.titulo = titulo;
     }
 
+    public String getUrlxml(){
+        return urlxml;
+    }
+    public void setUrlxml(String urlxml){
+        this.urlxml = urlxml;
+    }
+    
+    public String getUrlpdf(){
+        return urlpdf;
+    }
+    public void setUrlpdf(String urlpdf){
+        this.urlpdf = urlpdf;
+    }
+    public String getTitulo(){
+        return titulo;
+    }
+    public void setTitulo(String titulo){
+        this.titulo = titulo;
+    }
     public String getId() {
         return id;
     }
@@ -87,7 +116,12 @@ public class Oposicion implements Serializable {
     public void setRelDepEpi(RelDepEpi relDepEpi) {
         this.relDepEpi = relDepEpi;
     }
-
+    public String getContentido(){
+        return contenido;
+    }
+    public void setContenido(String contenido){
+        this.contenido = contenido;
+    }
     @Override
     public int hashCode() {
         int hash = 0;

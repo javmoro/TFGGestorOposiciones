@@ -8,6 +8,7 @@ package rest;
 import dominio.Departamento;
 import dominio.Oposicion;
 import dominio.RelDepEpi;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -102,18 +103,28 @@ public class DepartamentoResource implements ContainerResponseFilter{
     @GET
     @Path("{id}/epigrafes/{nombreEp}/oposiciones")
     @Produces( "application/json")
-    public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("nombreEp") String nombreEp,@QueryParam("page") int page) {
+    public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("nombreEp") String nombreEp,@QueryParam("fecha") Date fecha,@QueryParam("page") int page) {
          if(page!=0){
             page--;
         }
         int array[] = new int[2];
         array[0] = page*10;
         array[1] = array[0]+9;
-        return oposicionFacade.findOposicion(id,nombreEp,array);
+        return oposicionFacade.findOposicion(id,nombreEp,array,fecha);
     }
 
 
-    
+    @GET
+    @Path("search/{busqueda}")
+    @Produces( "application/json")
+    public Departamento[] findBusqueda(@PathParam("busqueda") String busqueda,@QueryParam("page") int page) {
+        int array[] = new int[2];
+        array[0] = page*10;
+        array[1] = array[0]+9;
+        return departamentoFacade.findDepartamentoBusqueda(busqueda,array).toArray(new Departamento[0]);
+        //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
+           //         .build();
+    }
 
     private DepartamentoFacadeLocal lookupDepartamentoFacadeLocal() {
         try {

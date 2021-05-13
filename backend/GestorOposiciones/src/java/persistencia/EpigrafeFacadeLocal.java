@@ -34,6 +34,6 @@ public interface EpigrafeFacadeLocal {
 
 
     List<RelDepEpi> findDep(String id,int array[]);
-
+    List<Epigrafe> findEpigrafeBusqueda(String busqueda, int[]array);
     
 }

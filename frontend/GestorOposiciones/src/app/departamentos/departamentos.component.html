@@ -19,16 +19,16 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         
         <ion-grid size="16" size-lg="12" offset-lg="0" size-xl="10" offset-xl="1">
           <ion-row>
-            <ion-col >
+            <ion-col size="11.5" size-md ="10" offset-md = "1" size-lg="8" offset-lg="2" size-xl="6" offset-xl="3">
               <ion-toolbar>
                 <ion-searchbar></ion-searchbar>
               </ion-toolbar>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col >
+            <ion-col size="11.5" size-md ="10" offset-md = "1" size-lg="8" offset-lg="2" size-xl="6" offset-xl="3">
               <ion-list size="200" *ngFor="let dep of departamentos">
-                  <ion-item [routerLink]="['/departamentos/',dep.etq]">
+                  <ion-item [routerLink]="['/departamentos/',dep.etq,'epigrafes']">
                     <div class="w3-row"><!--
                       <div class="w3-col m2 text-center">
                         <img class="w3-circle" src="/w3images/avatar3.png" style="width:96px;height:96px">

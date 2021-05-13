@@ -9,6 +9,7 @@ import dominio.Departamento;
 import dominio.Epigrafe;
 import dominio.Oposicion;
 import dominio.RelDepEpi;
+import java.sql.Date;
 import java.util.Base64;
 import java.util.List;
 import java.util.logging.Level;
@@ -101,14 +102,14 @@ public class EpigrafeResource implements ContainerResponseFilter{
     @GET
     @Path("{id}/departamentos/{etqDep}/oposiciones")
     @Produces( "application/json")
-    public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("etqDep") String etqDep,@QueryParam("page") int page) {
+    public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("etqDep") String etqDep,@QueryParam("fecha") Date fecha,@QueryParam("page") int page) {
         if(page!=0){
             page--;
         }
         int array[] = new int[2];
         array[0] = page*10;
         array[1] = array[0]+9;
-        return oposicionFacade.findOposicion(etqDep,id,array);
+        return oposicionFacade.findOposicion(etqDep,id,array,fecha);
     }
     
     private EpigrafeFacadeLocal lookupEpigrafeFacadeLocal() {
@@ -120,7 +121,17 @@ public class EpigrafeResource implements ContainerResponseFilter{
             throw new RuntimeException(ne);
         }
     }
-
+    @GET
+    @Path("search/{busqueda}")
+    @Produces( "application/json")
+    public Epigrafe[] findBusqueda(@PathParam("busqueda") String busqueda,@QueryParam("page") int page) {
+        int array[] = new int[2];
+        array[0] = page*10;
+        array[1] = array[0]+9;
+        return epigrafeFacade.findEpigrafeBusqueda(busqueda,array).toArray(new Epigrafe[0]);
+        //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
+           //         .build();
+    }
     private OposicionFacadeLocal lookupOposicionFacadeLocal() {
         try {
             javax.naming.Context c = new InitialContext();

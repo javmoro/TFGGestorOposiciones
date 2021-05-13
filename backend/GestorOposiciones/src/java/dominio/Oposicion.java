@@ -36,18 +36,12 @@ public class Oposicion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "ID")
     private String id;
     @Basic(optional = false)
-    @NotNull
-
     @Column(name = "FECHA")
     private Date fecha;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
     @Column(name = "CONTROL")
     private String control;
     @JoinColumns({
@@ -55,7 +49,12 @@ public class Oposicion implements Serializable {
         @JoinColumn(name = "ETQDEP", referencedColumnName = "ETQDEP")})
     @ManyToOne(optional = false)
     private RelDepEpi relDepEpi;
-
+    @Column(name = "URLPDF")
+    private String urlpdf;
+    @Column(name = "URLXML")
+    private String urlxml;
+    @Column(name = "TITULO")
+    private String titulo;
     public Oposicion() {
     }
 
@@ -63,12 +62,34 @@ public class Oposicion implements Serializable {
         this.id = id;
     }
 
-    public Oposicion(String id, Date fecha, String control) {
+    public Oposicion(String id, Date fecha, String control,String urlpdf, String urlxml,String titulo) {
         this.id = id;
         this.fecha = fecha;
         this.control = control;
+        this.urlpdf = urlpdf;
+        this.urlxml = urlxml;
+        this.titulo = titulo;
     }
 
+    public String getUrlxml(){
+        return urlxml;
+    }
+    public void setUrlxml(String urlxml){
+        this.urlxml = urlxml;
+    }
+    
+    public String getUrlpdf(){
+        return urlpdf;
+    }
+    public void setUrlpdf(String urlpdf){
+        this.urlpdf = urlpdf;
+    }
+    public String getTitulo(){
+        return titulo;
+    }
+    public void setTitulo(String titulo){
+        this.titulo = titulo;
+    }
     public String getId() {
         return id;
     }
@@ -123,7 +144,7 @@ public class Oposicion implements Serializable {
 
     @Override
     public String toString() {
-        return "dominio.Oposicion[ id=" + id + " ]";
+        return "Dominio.Oposicion[ id=" + id + " ]";
     }
     
 }

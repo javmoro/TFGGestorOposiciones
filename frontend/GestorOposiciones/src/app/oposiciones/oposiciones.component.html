@@ -17,18 +17,24 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
       </ion-header>
       <ion-content class="ion-padding">
         
-        <ion-grid size="16" size-lg="12" offset-lg="0" size-xl="10" offset-xl="1">
+        <ion-grid >
           <ion-row>
-            <ion-col >
+            <ion-col  size="11.5" size-md ="8" offset-md = "1" size-lg="6" offset-lg="2" size-xl="4" offset-xl="3" >
               <ion-toolbar>
                 <ion-searchbar></ion-searchbar>
               </ion-toolbar>
             </ion-col>
+            <ion-col size="11.5"  size-md ="2"  size-lg="2"  size-xl="2" >
+              <ion-item>
+                <ion-label>Seleccione Fecha</ion-label>
+                <ion-datetime [(ngModel)]="myDate" cancelText="Cancelar" doneText="Aceptar" (ionChange)="buscarFecha()" displayFormat="DD MMM,YYYY"  monthShortNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"></ion-datetime>
+              </ion-item>
+            </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col >
+            <ion-col size="11.5" size-md ="10" offset-md = "1" size-lg="8" offset-lg="2" size-xl="6" offset-xl="3">
               <ion-list size="200" *ngFor="let opos of oposiciones">
-                  <ion-item [routerLink]="['/oposiciones/',opos.id]">
+                  <ion-item [href]="[opos.urlpdf]">
                     <div class="w3-row"><!--
                       <div class="w3-col m2 text-center">
                         <img class="w3-circle" src="/w3images/avatar3.png" style="width:96px;height:96px">

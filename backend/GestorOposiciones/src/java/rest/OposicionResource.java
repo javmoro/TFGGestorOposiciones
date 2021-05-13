@@ -6,6 +6,7 @@
 package rest;
 
 import dominio.Oposicion;
+import java.sql.Date;
 import java.util.Base64;
 import java.util.List;
 import java.util.logging.Level;
@@ -76,17 +77,31 @@ public class OposicionResource implements ContainerResponseFilter{
     public Oposicion find(@PathParam("id") String id) {
         return oposicionFacade.find(id);
     }
+
+    
     
     @GET
     @Produces( "application/json")
-    public Oposicion[] findAll(@QueryParam("page") int page) {
+    public Oposicion[] findAll(@QueryParam("fecha") Date fecha,@QueryParam("page") int page) {
         int array[] = new int[2];
         array[0] = page*10;
         array[1] = array[0]+9;
-        return oposicionFacade.findRange(array).toArray(new Oposicion[0]);
+        return oposicionFacade.findRange(array,fecha).toArray(new Oposicion[0]);
         //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
            //         .build();
     }
+    @GET
+    @Path("search/{busqueda}")
+    @Produces( "application/json")
+    public Oposicion[] findBusqueda(@PathParam("busqueda") String busqueda,@QueryParam("page") int page) {
+        int array[] = new int[2];
+        array[0] = page*10;
+        array[1] = array[0]+9;
+        return oposicionFacade.findOposicionBusqueda(busqueda,array).toArray(new Oposicion[0]);
+        //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
+           //         .build();
+    }
+    
     @GET
     @Path("count")
     @Produces( "text/plain")

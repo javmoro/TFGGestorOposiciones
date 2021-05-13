@@ -17,8 +17,11 @@ export interface RelDepEpi{
 
 export class Oposicion {
     readonly control: String;
-    fecha: String;
+    fecha: Date;
     id: String;
+    urlxml:String;
+    urlpdf:String;
+    titulo:String;
     relDepEpi: RelDepEpi;
     constructor(_control? : String, fecha? : String){
         this.id = _control || "";

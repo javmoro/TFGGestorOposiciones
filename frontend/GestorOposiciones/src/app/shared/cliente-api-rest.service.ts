@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Oposicion,Epigrafe, Departamento } from './app.model';
+import { Oposicion,Epigrafe, Departamento, RelDepEpi } from './app.model';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -27,6 +27,13 @@ export class ClienteApiRestService {
   getOposiciones(pagina: Number): Observable<HttpResponse<Oposicion[]>>{
     console.log('get oposiciones'+pagina);
     let url = ClienteApiRestService.BASE_URI + '/oposicion?page='+pagina;
+    return this.http.get<Oposicion[]>(url, {observe: 'response', headers: this.headers.value});
+  }
+
+  
+  getOposicionesByFecha(fecha:String,pagina:Number):Observable<HttpResponse<Oposicion[]>>{
+    console.log('get oposiciones'+pagina);
+    let url = ClienteApiRestService.BASE_URI + '/oposicion?fecha='+fecha+'&page='+pagina;
     return this.http.get<Oposicion[]>(url, {observe: 'response', headers: this.headers.value});
   }
   getOposicion(id: String): Observable<HttpResponse<Oposicion>>{
@@ -61,5 +68,28 @@ export class ClienteApiRestService {
   getEpigrafe(nombreep: String): Observable<HttpResponse<Epigrafe>>{
     let url = ClienteApiRestService.BASE_URI + '/epigrafe/'+nombreep;
     return this.http.get<Epigrafe>(url, {observe : 'response', headers: this.headers.value});
+  }
+  getEpigrafesFromDep(etqdep:String, pagina:Number):Observable<HttpResponse<RelDepEpi[]>>{
+    let url = ClienteApiRestService.BASE_URI + '/departamento/'+etqdep+'/epigrafes?page='+pagina;
+    return this.http.get<RelDepEpi[]>(url, {observe : 'response', headers: this.headers.value});
+  }
+  getDepartamentosFromEp(nombreep:String,pagina:Number):Observable<HttpResponse<RelDepEpi[]>>{
+    let url = ClienteApiRestService.BASE_URI + '/epigrafe/'+nombreep+'/departamentos?page='+pagina;
+    return this.http.get<RelDepEpi[]>(url, {observe : 'response', headers: this.headers.value});
+  }
+  getOposicionesFrom(etqdep:String,nombreep:String,pagina:Number):Observable<HttpResponse<Oposicion[]>>{
+    let url = ClienteApiRestService.BASE_URI + '/epigrafe/'+nombreep+'/departamentos/'+etqdep+'/oposiciones?page='+pagina;
+    return this.http.get<Oposicion[]>(url, {observe : 'response', headers: this.headers.value});
+  }
+  getOposicionesFromByFecha(etqdep:String,nombreep:String,fecha:String,pagina:Number):Observable<HttpResponse<Oposicion[]>>{
+    console.log('get oposiciones'+pagina);
+    let url = ClienteApiRestService.BASE_URI + '/epigrafe/'+nombreep+'/departamentos/'+etqdep+'/oposiciones?fecha='+fecha+'&page='+pagina;
+    return this.http.get<Oposicion[]>(url, {observe: 'response', headers: this.headers.value});
+  }
+  busquedaOposicionesByWord(busqueda:String,pagina:Number):Observable<HttpResponse<Oposicion[]>>{
+    console.log('/oposicion/search/'+busqueda+'&page='+pagina);
+
+    let url = ClienteApiRestService.BASE_URI + '/oposicion/search/'+busqueda+'?page='+pagina;
+    return this.http.get<Oposicion[]>(url, {observe: 'response', headers: this.headers.value});
   }
 }

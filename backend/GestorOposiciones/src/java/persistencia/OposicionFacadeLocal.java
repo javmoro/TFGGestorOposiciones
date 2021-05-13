@@ -6,6 +6,7 @@
 package persistencia;
 
 import dominio.Oposicion;
+import java.sql.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -26,9 +27,10 @@ public interface OposicionFacadeLocal {
 
     List<Oposicion> findAll();
 
-    List<Oposicion> findRange(int[] range);
+    List<Oposicion> findRange(int[] range,Date fecha);
 
     int count();
-    List<Oposicion> findOposicion(String etqDep, String nombreEp,int array[]);
+    List<Oposicion> findOposicion(String etqDep, String nombreEp,int array[],Date fecha);
+    List<Oposicion> findOposicionBusqueda(String busqueda,int array[]);
 
 }
