@@ -92,4 +92,16 @@ export class ClienteApiRestService {
     let url = ClienteApiRestService.BASE_URI + '/oposicion/search/'+busqueda+'?page='+pagina;
     return this.http.get<Oposicion[]>(url, {observe: 'response', headers: this.headers.value});
   }
+  busquedaDepartamentosByWord(busqueda:String,pagina:Number):Observable<HttpResponse<Departamento[]>>{
+    console.log('/departamento/search/'+busqueda+'?page='+pagina);
+
+    let url = ClienteApiRestService.BASE_URI + '/departamento/search/'+busqueda+'?page='+pagina;
+    return this.http.get<Departamento[]>(url, {observe: 'response', headers: this.headers.value});
+  }
+  busquedaEpigrafesByWord(busqueda:String,pagina:Number):Observable<HttpResponse<Epigrafe[]>>{
+    console.log('/epigrafe/search/'+busqueda+'?page='+pagina);
+
+    let url = ClienteApiRestService.BASE_URI + '/epigrafe/search/'+busqueda+'?page='+pagina;
+    return this.http.get<Epigrafe[]>(url, {observe: 'response', headers: this.headers.value});
+  }
 }

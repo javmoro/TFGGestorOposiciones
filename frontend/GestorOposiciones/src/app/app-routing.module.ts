@@ -14,10 +14,14 @@ const routes: Routes = [
   {path: 'departamentos/:idDep/epigrafes/:idEpi/oposiciones',component:OposicionesComponent},
   {path: 'departamentos/:idDep/epigrafes/:idEpi/oposiciones/fecha/:fecha',component:OposicionesComponent},
   {path: 'departamentos', component:DepartamentosComponent},
+  {path: 'departamentos/search/:search', component:DepartamentosComponent},
   {path: 'epigrafes', component:EpigrafesComponent},
+  {path: 'epigrafes/search/:search', component:EpigrafesComponent},
   {path: 'departamentos/:idDep/epigrafes',component: DetalleEpiDepComponent},
   {path: 'epigrafes/:idEpi/departamentos', component: DetalleEpiDepComponent},
   {path: 'oposiciones/search/:search',component:OposicionesComponent},
+  {path: 'departamentos/search/:search',component:DepartamentosComponent},
+  {path: 'epigrafes/search/:search',component:EpigrafesComponent},
   {path: '**', redirectTo:'oposiciones', pathMatch:'full'}
   
   

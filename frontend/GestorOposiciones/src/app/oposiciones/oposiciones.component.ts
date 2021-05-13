@@ -203,6 +203,12 @@ export class OposicionesComponent implements OnInit {
     },1000);
   }
 
+  buscarEvent(q : string){
+      this.href = this.href.substring(0,this.href.lastIndexOf("/oposiciones/"));
+    
+    this.router.navigateByUrl(this.href+'/oposiciones/search/'+q);
+  }
+
   getOposiciones(){
     
     this.clienteApiRestService.getOposiciones(this.pagina).subscribe(
