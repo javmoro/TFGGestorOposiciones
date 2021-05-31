@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="_dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card style=" height: 95%">
+    
+    <ion-card-header>
+      {{id}}
+      <ion-card-subtitle>{{nombreEp}}  {{nombreDep}}</ion-card-subtitle>
+      <ion-card-title>
+        {{titulo}}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-button style="position: absolute;
+     border-radius: 20px;
+    padding: 10px 50px;
+    margin: 10px;
+    bottom: 0%;
+    text-align: center;
+    width: 75%;" [href]="[urlPdf]"> <ion-icon name="document-text"></ion-icon> </ion-button>
+  </ion-card>
+</ion-content>

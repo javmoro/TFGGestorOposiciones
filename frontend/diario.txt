@@ -1,0 +1,22 @@
+tsconfig y tslint archivos de configuración de ionic (lenguaje)
+
+package: dependencias, metainformación
+
+karma: test
+
+ionic: framework que estamos utilizando
+
+browserlist: versión que estamos soportando
+
+angular.json: configura el framework, añadir css o bibliotecas de js
+
+e2e: testing
+
+node_modules: guardar los módulos, no hay que tocar
+
+src: 
+	main.ts: archivo principal
+	app.module: archivo que tiene el componente principal. main2.0
+	app.component.ts: primer componente
+	
+	home: página
