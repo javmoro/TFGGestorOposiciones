@@ -17,7 +17,7 @@ export class DepartamentosComponent implements OnInit {
   constructor(private router: Router, private ruta: ActivatedRoute, private clienteApiRestService: ClienteApiRestService, private datos: DataService) {
     this.departamentos = [];
     this.href = this.router.url;
-    this.pagina = 0;
+    this.pagina = 1;
   }
   ngOnInit() {
     this.ruta.paramMap.subscribe(

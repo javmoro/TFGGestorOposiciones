@@ -21,7 +21,7 @@
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Inbox</ion-title>
+        <ion-title>Menu</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
@@ -35,6 +35,14 @@
                     <ion-searchbar style="padding-left:0px" [(ngModel)]="search" [animated]="true" [showCancelButton]="false" #q (keyup.enter)="buscarEvent(q.value)">
                     </ion-searchbar>
               </ion-col>
+              <ion-col size="11.75" >
+                <ion-item>
+                  <ion-label>Departamento</ion-label>
+                  <ion-select interface="popover" >
+                    <ion-select-option *ngFor="let dep of departamentos" [value]="dep.nombre">{{dep.nombre}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
               <ion-col size="5.75"size-sm="5" style="padding-right:0px">
                 <ion-item >
                   <ion-label>Desde: </ion-label>
@@ -44,6 +52,7 @@
                   </ion-datetime>
                 </ion-item>
               </ion-col>
+              
               <ion-col size="5.75" size-sm="5" style="padding-left: 0px;padding-right:5px"  style-sm="padding-right:0px">
                 <ion-item >
                   <ion-label>Hasta:</ion-label>
@@ -56,6 +65,7 @@
               <ion-col size="11.75" size-sm="1.5"  >
                   <ion-button style="padding-right:5px" expand="full" (click) ="buscar()"> Buscar </ion-button>
               </ion-col>
+             
             </ion-row>
           </ion-toolbar>
 
@@ -69,8 +79,14 @@
                   
 
                 <div class="w3-row">
-                  <div class="w3-col m20 w3-container">
+                  <div class="w3-col m20 w3-container" *ngIf="opos.fecha.toString()!=fechaActual">
                     <h4>{{opos.relDepEpi.relDepEpiPK.nombreep}} <span class="w3-opacity w3-medium">{{opos.fecha}}</span>
+                    </h4>
+                    <p>{{opos.relDepEpi.departamento.nombre}}</p>
+
+                  </div>
+                  <div class="w3-col m20 w3-container" *ngIf="opos.fecha.toString()==fechaActual">
+                    <h4>{{opos.relDepEpi.relDepEpiPK.nombreep}} <span class="w3-opacity w3-medium">{{opos.fecha}}  </span>  <span style="color: brown;"class="w3-opacity w3-medium">Novedad</span>
                     </h4>
                     <p>{{opos.relDepEpi.departamento.nombre}}</p>
 

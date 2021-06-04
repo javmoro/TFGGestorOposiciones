@@ -16,7 +16,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface OposicionFacadeLocal {
-
+    List<Oposicion> findTitulo(String busqueda);
     void create(Oposicion oposicion);
 
     void edit(Oposicion oposicion);
@@ -32,5 +32,8 @@ public interface OposicionFacadeLocal {
     int count();
     List<Oposicion> findOposicion(String etqDep, String nombreEp,int array[],Date fecha);
     List<Oposicion> findOposicionBusqueda(String busqueda,int array[]);
+    List<Oposicion> findOposicionFechasId(String busqueda,Date fecha1,Date fecha2,int array[]);
+    List<Oposicion> findOposicionFechaId(String busqueda,Date fecha,int array[]);
+    List<Oposicion> findOposicionFechas(Date fecha1,Date fecha2,int array[]);
 
 }

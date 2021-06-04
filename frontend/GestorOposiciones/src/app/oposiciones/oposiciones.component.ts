@@ -4,7 +4,8 @@ import { ClienteApiRestService } from '../shared/cliente-api-rest.service';
 import { DataService } from '../shared/data.service';
 import { Oposicion, Departamento, RelDepEpi, RelDepEpiPK, Mensaje, Tipo, } from '../shared/app.model';
 import { ModalController } from '@ionic/angular';
-import { DetalleOposicionComponent } from 'src/app/componentes/detalle-oposicion/detalle-oposicion.component'
+import { DetalleOposicionComponent } from 'src/app/componentes/detalle-oposicion/detalle-oposicion.component';
+import { GlobalConstants } from 'src/app/shared/global-constants';
 @Component({
   selector: 'app-oposiciones',
   templateUrl: './oposiciones.component.html',
@@ -15,6 +16,8 @@ export class OposicionesComponent implements OnInit {
   fecha2: String;
   oposiciones: Oposicion[];
   oposicion: Oposicion;
+  fechaActual: String;
+  departamentos: Departamento[];
   href: String;
   idEp: String;
   idDep: String;
@@ -24,10 +27,34 @@ export class OposicionesComponent implements OnInit {
   search: String;
   constructor(private modalCtrl: ModalController,private router: Router, private ruta: ActivatedRoute, private clienteApiRestService: ClienteApiRestService, private datos: DataService) {
     this.oposiciones = [];
+    this.fechaActual = "";
+    this.departamentos = [];
     this.fecha1 = "";
     this.fecha2 = "";
-    this.pagina = 0;
+    this.pagina = 1;
     this.href = this.router.url;
+  }
+  getDepartamentos() {
+
+    this.clienteApiRestService.getDepartamentos(0).subscribe(
+      resp => {
+        if (resp.status < 400) {
+          this.pagina++;
+
+          this.departamentos.push(...resp.body);
+
+          // ||[];
+        }
+        else {
+          this.datos.cambiarMensaje(new Mensaje("Error al acceder a las oposiciones"));
+        }
+      },
+      err => {
+        this.datos.cambiarMensaje(new Mensaje("Error al acceder a las oposiciones"));
+        console.log("Error al traer la lista" + err.message)
+        throw err;
+      }
+    )
   }
   getTipoLlamada(search: String, fecha1: String, fecha2: String, idEp: String, idDep: String, fecha: String): number {
     if (idEp != null && idDep != null) {
@@ -57,10 +84,14 @@ export class OposicionesComponent implements OnInit {
 
   }
   ngOnInit() {
+    var dateActual = new Date();
+    
+    this.fechaActual = dateActual.toISOString().substr(0,10);
+
     this.ruta.paramMap.subscribe(
       params => {
 
-        this.pagina = 0;
+        this.pagina = 1;
         this.idEp = params.get('idEpi');
         this.idDep = params.get('idDep');
         this.fecha = params.get('fecha');
@@ -94,6 +125,7 @@ export class OposicionesComponent implements OnInit {
         }
       }
       );
+      this.getDepartamentos();
 
   }
   busquedaOposiciones() {
@@ -255,7 +287,7 @@ export class OposicionesComponent implements OnInit {
     this.fecha1 = "";
     this.fecha2 = "";
     this.search = "";
-    this.pagina = 0;
+    this.pagina = 1;
     this.href = this.router.url;
   }
   buscar() {

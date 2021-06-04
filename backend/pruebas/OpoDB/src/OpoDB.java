@@ -47,7 +47,7 @@ public class OpoDB {
  
  static void mains(){
      
-    LocalDate date = LocalDate.of(2020, 1, 1);
+    LocalDate date = LocalDate.of(2021, 6, 1);
     String fecha ;
     //System.out.println(fecha);
     

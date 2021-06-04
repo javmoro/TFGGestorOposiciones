@@ -58,6 +58,7 @@ public class OposicionResource implements ContainerResponseFilter{
         response.getHeaders().putSingle("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, DELETE");
         response.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type, Authorization");
     }
+    int numValores = 20;
     /**
      * Creates a new instance of OposicionResource
      */
@@ -77,30 +78,93 @@ public class OposicionResource implements ContainerResponseFilter{
     public Oposicion find(@PathParam("id") String id) {
         return oposicionFacade.find(id);
     }
-
     
+    @GET
+    @Path("titulo/{id}")
+    @Produces( "application/json")
+    public List<Oposicion> findTitulo(@PathParam("id") String id) {
+        return oposicionFacade.findTitulo(id);
+    }
+
+    @GET
+    @Path("fechas")
+    @Produces( "application/json")
+    public List<Oposicion> findBetween(@QueryParam("fecha1") Date fecha1,@QueryParam("fecha2") Date fecha2,@QueryParam("page") int page) {
+        int array[] = new int[2];
+        array[0] = page*numValores;
+        array[1] = array[0]+numValores-1;
+        return oposicionFacade.findOposicionFechas(fecha1,fecha2,array);
+        //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
+           //         .build();
+    }
     
     @GET
     @Produces( "application/json")
     public Oposicion[] findAll(@QueryParam("fecha") Date fecha,@QueryParam("page") int page) {
+        if(page==0){
+            return oposicionFacade.findAll().toArray(new Oposicion[0]);
+        }
+        page--;
         int array[] = new int[2];
-        array[0] = page*10;
-        array[1] = array[0]+9;
+        array[0] = page*numValores;
+        array[1] = array[0]+numValores-1;
         return oposicionFacade.findRange(array,fecha).toArray(new Oposicion[0]);
         //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
            //         .build();
     }
-    @GET
-    @Path("search/{busqueda}")
-    @Produces( "application/json")
-    public Oposicion[] findBusqueda(@PathParam("busqueda") String busqueda,@QueryParam("page") int page) {
-        int array[] = new int[2];
-        array[0] = page*10;
-        array[1] = array[0]+9;
-        return oposicionFacade.findOposicionBusqueda(busqueda,array).toArray(new Oposicion[0]);
-        //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
-           //         .build();
+    
+    //Devuelve 1 si la peticion es solo para el Id, 2 si es una fecha, 3 si es id y fecha, 4 si es entre fechas,5 si es id y entre fechas
+    int tipoPeticion(String id, Date fecha1, Date fecha2){        
+        if(id.equals("")&&fecha1!=null&&fecha2==null){
+            return 2;
+        }
+        if(id.equals("")&&fecha1!=null&&fecha2!=null){
+            return 4;
+        }
+        if(!id.equals("")&&fecha1!=null&&fecha2==null){
+            return 3;
+        }
+        if(!id.equals("")&&fecha1!=null&&fecha2!=null){
+            return 5;
+        }
+        return 1;
     }
+    @GET
+    @Path("search")
+    @Produces( "application/json")
+    public List<Oposicion> findBusquedaCompleta(@QueryParam("busqueda") String busqueda,@QueryParam("departamento") String departamento,@QueryParam("fecha1") Date fecha1,@QueryParam("fecha2") Date fecha2,@QueryParam("page") int page) {
+        if(page<1){
+            page =0;
+        }
+        page--;
+        int array[] = new int[2];
+        array[0] = page*numValores;
+        array[1] = array[0]+numValores-1;
+        int tipo = tipoPeticion(busqueda,fecha1,fecha2);
+
+        switch(tipo){
+            //Busqueda de una fecha
+            case 2:
+                System.out.println("fecha");
+                return oposicionFacade.findRange(array, fecha1);
+            //Busqueda por id en una fecha
+            case 3:
+                System.out.println("busqueda fecha ");
+                return oposicionFacade.findOposicionFechaId(busqueda, fecha1, array);
+            //Busqueda entre fechas
+            case 4:
+                System.out.println("fecha1 fecha2");
+                return oposicionFacade.findOposicionFechas(fecha1, fecha2, array);
+            //Busqueda por id entre fechas
+            case 5:
+                System.out.println("busqueda fecha fecha2");
+                return oposicionFacade.findOposicionFechasId(busqueda, fecha1, fecha2, array);
+            
+        }
+        
+        return oposicionFacade.findOposicionBusqueda(busqueda, array);
+    }
+  
     
     @GET
     @Path("count")

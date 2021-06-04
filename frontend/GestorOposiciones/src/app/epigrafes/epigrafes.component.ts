@@ -16,7 +16,7 @@ export class EpigrafesComponent implements OnInit {
   href: string;
   constructor(private router: Router, private ruta: ActivatedRoute, private clienteApiRestService: ClienteApiRestService, private datos: DataService) {
     this.epigrafes = [];
-    this.pagina = 0;
+    this.pagina = 1;
     this.href = this.router.url;
 
   }
@@ -44,7 +44,10 @@ export class EpigrafesComponent implements OnInit {
   cargarMasOposiciones(event) {
     console.log('Cargando siguientes..')
     setTimeout(() => {
-      this.getEpigrafes();
+      if(this.search==null)
+        this.getEpigrafes();
+      else
+        this.buscarEpigrafes();
       event.target.complete();
     }, 1000);
   }

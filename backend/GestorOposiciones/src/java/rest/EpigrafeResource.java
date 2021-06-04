@@ -55,7 +55,7 @@ public class EpigrafeResource implements ContainerResponseFilter{
     private static final String ERR_AUTH="No tiene permisos para realizar esa operacion";
     @Context
     private UriInfo context;
-    
+    int numValores = 20;
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext response) {
         response.getHeaders().putSingle("Access-Control-Allow-Origin", "*");
@@ -70,12 +70,13 @@ public class EpigrafeResource implements ContainerResponseFilter{
     @GET
     @Produces( "application/json")
     public Epigrafe[] findAll(@QueryParam("page") int page) {
-        if(page!=0){
-            page--;
+        if(page==0){
+            return epigrafeFacade.findAll().toArray(new Epigrafe[0]);
         }
+        page--;
         int array[] = new int[2];
-        array[0] = page*10;
-        array[1] = array[0]+9;
+        array[0] = page*numValores;
+        array[1] = array[0]+numValores-1;
         return epigrafeFacade.findRange(array).toArray(new Epigrafe[0]);
     }
     
@@ -90,12 +91,13 @@ public class EpigrafeResource implements ContainerResponseFilter{
     @Path("{id}/departamentos")
     @Produces( "application/json")
     public List<RelDepEpi> findEpigrafe(@PathParam("id") String id,@QueryParam("page") int page) {
-        if(page!=0){
-            page--;
+        page--;
+        if(page<0){
+            page =0;
         }
         int array[] = new int[2];
-        array[0] = page*10;
-        array[1] = array[0]+9;
+        array[0] = page*numValores;
+        array[1] = array[0]+numValores-1;
         return epigrafeFacade.findDep(id,array);
     }
     
@@ -103,12 +105,13 @@ public class EpigrafeResource implements ContainerResponseFilter{
     @Path("{id}/departamentos/{etqDep}/oposiciones")
     @Produces( "application/json")
     public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("etqDep") String etqDep,@QueryParam("fecha") Date fecha,@QueryParam("page") int page) {
-        if(page!=0){
-            page--;
+        page--;
+        if(page<0){
+            page =0;
         }
         int array[] = new int[2];
-        array[0] = page*10;
-        array[1] = array[0]+9;
+        array[0] = page*numValores;
+        array[1] = array[0]+numValores-1;
         return oposicionFacade.findOposicion(etqDep,id,array,fecha);
     }
     
@@ -125,9 +128,13 @@ public class EpigrafeResource implements ContainerResponseFilter{
     @Path("search/{busqueda}")
     @Produces( "application/json")
     public Epigrafe[] findBusqueda(@PathParam("busqueda") String busqueda,@QueryParam("page") int page) {
+        page--;
+        if(page<0){
+            page =0;
+        }
         int array[] = new int[2];
-        array[0] = page*10;
-        array[1] = array[0]+9;
+        array[0] = page*numValores;
+        array[1] = array[0]+numValores-1;
         return epigrafeFacade.findEpigrafeBusqueda(busqueda,array).toArray(new Epigrafe[0]);
         //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
            //         .build();

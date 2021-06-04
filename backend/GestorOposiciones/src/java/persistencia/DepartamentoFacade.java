@@ -32,6 +32,11 @@ public class DepartamentoFacade extends AbstractFacade<Departamento> implements 
         super(Departamento.class);
     }
     @Override
+    public List<Departamento> findAll(){
+        javax.persistence.Query q = getEntityManager().createQuery("SELECT o FROM Departamento o ORDER BY o.nombre ASC");
+        return  q.getResultList();
+    }
+    @Override
     public List<Departamento> findRange(int array[]){
         javax.persistence.Query q = getEntityManager().createQuery("SELECT o FROM Departamento o ORDER BY o.nombre ASC");
         q.setMaxResults(array[1] - array[0] + 1);

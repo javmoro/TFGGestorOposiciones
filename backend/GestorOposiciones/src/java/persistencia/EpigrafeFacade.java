@@ -21,7 +21,13 @@ import persistencia.AbstractFacade;
 public class EpigrafeFacade extends AbstractFacade<Epigrafe> implements EpigrafeFacadeLocal {
     @PersistenceContext(unitName = "GestorOposicionesPU")
     private EntityManager em;
-
+    
+    
+    @Override
+    public List<Epigrafe> findAll(){
+        javax.persistence.Query q = getEntityManager().createQuery("SELECT o FROM Epigrafe o ORDER BY o.nombre ASC");
+        return  q.getResultList();
+    }
     @Override
     protected EntityManager getEntityManager() {
         return em;

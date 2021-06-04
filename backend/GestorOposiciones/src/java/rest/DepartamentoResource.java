@@ -40,7 +40,7 @@ import persistencia.RelDepEpiFacadeLocal;
 @Path("departamento")
 public class DepartamentoResource implements ContainerResponseFilter{
     OposicionFacadeLocal oposicionFacade = lookupOposicionFacadeLocal();
-
+    int numValores = 20;
     DepartamentoFacadeLocal departamentoFacade = lookupDepartamentoFacadeLocal();
 
     @Context
@@ -71,13 +71,16 @@ public class DepartamentoResource implements ContainerResponseFilter{
     @GET
     @Produces({"application/xml", "application/json"})
     public Departamento[] findAll(@QueryParam("page") int page) {
-         if(page!=0){
-            page--;
+        if(page==0){
+            return departamentoFacade.findAll().toArray(new Departamento[0]);
         }
+        page--;
         int array[] = new int[2];
-        array[0] = page*10;
-        array[1] = array[0]+9;
+        array[0] = page*numValores;
+        array[1] = array[0]+numValores-1;
         return departamentoFacade.findRange(array).toArray(new Departamento[0]);
+        
+        
     }
      
     @GET
@@ -91,12 +94,14 @@ public class DepartamentoResource implements ContainerResponseFilter{
     @Path("{id}/epigrafes")
     @Produces( "application/json")
     public List<RelDepEpi> findEpigrafe(@PathParam("id") String id,@QueryParam("page") int page) {
-         if(page!=0){
-            page--;
+        
+        page--;
+        if(page<0){
+            page =0;
         }
         int array[] = new int[2];
-        array[0] = page*10;
-        array[1] = array[0]+9;
+        array[0] = page*numValores;
+        array[1] = array[0]+numValores-1;
         return departamentoFacade.findEpi(id,array);
     }
     //?page=3
@@ -104,12 +109,13 @@ public class DepartamentoResource implements ContainerResponseFilter{
     @Path("{id}/epigrafes/{nombreEp}/oposiciones")
     @Produces( "application/json")
     public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("nombreEp") String nombreEp,@QueryParam("fecha") Date fecha,@QueryParam("page") int page) {
-         if(page!=0){
-            page--;
+        page--;
+        if(page<0){
+            page =0;
         }
         int array[] = new int[2];
-        array[0] = page*10;
-        array[1] = array[0]+9;
+        array[0] = page*numValores;
+        array[1] = array[0]+numValores-1;
         return oposicionFacade.findOposicion(id,nombreEp,array,fecha);
     }
 
@@ -118,13 +124,19 @@ public class DepartamentoResource implements ContainerResponseFilter{
     @Path("search/{busqueda}")
     @Produces( "application/json")
     public Departamento[] findBusqueda(@PathParam("busqueda") String busqueda,@QueryParam("page") int page) {
+        page--;
+        if(page<0){
+            page =0;
+        }
         int array[] = new int[2];
-        array[0] = page*10;
-        array[1] = array[0]+9;
+        array[0] = page*numValores;
+        array[1] = array[0]+numValores-1;
         return departamentoFacade.findDepartamentoBusqueda(busqueda,array).toArray(new Departamento[0]);
         //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
            //         .build();
     }
+    
+    
 
     private DepartamentoFacadeLocal lookupDepartamentoFacadeLocal() {
         try {
