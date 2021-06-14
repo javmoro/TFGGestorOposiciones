@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Mensaje, RelDepEpi } from '../shared/app.model';
+import { Departamento,Mensaje, RelDepEpi } from '../shared/app.model';
 import { ClienteApiRestService } from '../shared/cliente-api-rest.service';
 import { DataService } from '../shared/data.service';
 
@@ -13,16 +13,18 @@ import { DataService } from '../shared/data.service';
 export class DetalleEpiDepComponent implements OnInit {
   opcion: boolean;
   idEp: String;
+  nombreDep:String;
   idDep: String;
   identificador: String[];
   detalles: RelDepEpi[];
   pagina: number;
   constructor(private ruta: ActivatedRoute, private clienteApiRestService: ClienteApiRestService, private datos: DataService) {
     this.detalles = []; this.opcion = true; this.pagina = 0;
-
+    this.nombreDep ="";
   }
 
   ngOnInit() {
+    
     this.ruta.paramMap.subscribe(
       params => {
         this.idEp = params.get('idEpi');
@@ -34,6 +36,8 @@ export class DetalleEpiDepComponent implements OnInit {
       console.log('Cargando siguientes epigrafes..')
       this.opcion = true;
       this.getEpigrafes();
+    this.getDepartamento();
+
     } else {
       console.log('Cargando siguientes departamentos..')
       this.opcion = false;
@@ -51,6 +55,28 @@ export class DetalleEpiDepComponent implements OnInit {
       event.target.complete();
     }, 1000);
   }
+
+  getDepartamento() {
+
+    this.clienteApiRestService.getDepartamento(this.idDep).subscribe(
+      resp => {
+        if (resp.status < 400) {
+          this.pagina++;
+          var dep= resp.body;
+          this.nombreDep = dep.nombre;
+        }
+        else {
+          this.datos.cambiarMensaje(new Mensaje("Error al acceder a las oposiciones"));
+        }
+      },
+      err => {
+        this.datos.cambiarMensaje(new Mensaje("Error al acceder a las oposiciones"));
+        console.log("Error al traer la lista" + err.message)
+        throw err;
+      }
+    )
+  }
+
   getDepartamentos() {
 
     this.clienteApiRestService.getDepartamentosFromEp(this.idEp, this.pagina).subscribe(

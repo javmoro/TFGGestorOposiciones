@@ -2,6 +2,16 @@
 // http://ionicframework.com/docs/theming/
 
 /** Ionic CSS Variables **/
+h1 { color: #7c795d; font-family: 'Trocchi', serif; font-size: 45px; font-weight: normal; line-height: 48px; margin: 0; }
+
+
+h2 { color: #7c795d; font-family: 'Source Sans Pro', sans-serif; font-size: 28px; font-weight: 400; line-height: 32px; margin: 0 0 24px; }
+
+
+.subheader { font-size: 26px; font-weight: 300; color: #ffcc66; margin: 0 0 24px; }
+
+
+p { color: #4c4a37; font-family: 'Source Sans Pro', sans-serif; font-size: 18px; line-height: 32px; margin: 0 0 24px; }
 :root {
   --ion-color-primary: #B6E6C6;
   --ion-color-primary-rgb: 57,212,114;
@@ -12,11 +22,12 @@
 
   --ion-item-background: #F3FFF7;
   --ion-background-color: url(../assets/img/congruent_pentagon.png);
-  --ion-toolbar-background: #B6E6C6;
+  --ion-toolbar-background: #75f7a0;
+  //--ion-toolbar-background: #64f093;
 
   --ion-tab-bar-background:#B6E6C6;
 
-  --ion-color-secondary: #4dd880;
+  --ion-color-secondary: #64f093;
   --ion-color-secondary-rgb: 69,253,137;
   --ion-color-secondary-contrast: #000000;
   --ion-color-secondary-contrast-rgb: 0,0,0;
@@ -86,7 +97,7 @@
     --ion-color-primary-shade: #2CA66D;
     --ion-color-primary-tint: #57D298;
 
-    --ion-color-secondary: #50c8ff;
+    --ion-color-secondary: #B6E6C6;
     --ion-color-secondary-rgb: 80,200,255;
     --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-contrast-rgb: 255,255,255;

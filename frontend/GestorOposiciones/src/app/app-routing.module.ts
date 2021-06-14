@@ -3,8 +3,9 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { OposicionesComponent } from './oposiciones/oposiciones.component';
 import { DepartamentosComponent} from './departamentos/departamentos.component';
 import { EpigrafesComponent} from './epigrafes/epigrafes.component';
-import { DetalleEpiDepComponent } from './detalle-epi-dep/detalle-epi-dep.component'
-import { DetalleOposicionComponent } from './detalle-oposicion/detalle-oposicion.component'
+import { DetalleEpiDepComponent } from './detalle-epi-dep/detalle-epi-dep.component';
+import { DetalleOposicionComponent} from './componentes/detalle-oposicion/detalle-oposicion.component';
+import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   {path: 'oposiciones', component:OposicionesComponent},
   {path: 'oposiciones/search',component:OposicionesComponent},
@@ -22,8 +23,9 @@ const routes: Routes = [
   {path: 'epigrafes/:idEpi/departamentos', component: DetalleEpiDepComponent},
   {path: 'departamentos/search/:search',component:DepartamentosComponent},
   {path: 'epigrafes/search/:search',component:EpigrafesComponent},
-  
-  {path: '**', redirectTo:'oposiciones', pathMatch:'full'}
+  {path:  'home', component:HomeComponent},
+  {path: '**', redirectTo:'oposiciones', pathMatch:'full'},
+
   
   
 ];

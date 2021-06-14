@@ -20,7 +20,13 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         <ion-grid size="16" size-lg="12" offset-lg="0" size-xl="10" offset-xl="1">
           <ion-row>
             <ion-col size="11.5" size-md ="10" offset-md = "1" size-lg="8" offset-lg="2" size-xl="6" offset-xl="3">
-              <ion-toolbar>
+            <h1>Departamentos</h1>
+            </ion-col>
+            
+          </ion-row>
+          <ion-row>
+            <ion-col size="11.5" size-md ="10" offset-md = "1" size-lg="8" offset-lg="2" size-xl="6" offset-xl="3">
+              <ion-toolbar  color="secondary">
                 <ion-searchbar [animated]="true" [showCancelButton]="false" #q
                 (keyup.enter)="buscarEvent(q.value)">
                 </ion-searchbar>
@@ -28,7 +34,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="11.5" size-md ="10" offset-md = "1" size-lg="8" offset-lg="2" size-xl="6" offset-xl="3">
+            <ion-col size="11.5" size-md ="10" offset-md = "1" size-lg="8" offset-lg="2" size-xl="6" offset-xl="3" style="background-color: #e3e8e7;">
               <ion-list size="200" *ngFor="let dep of departamentos">
                   <ion-item [routerLink]="['/departamentos/',dep.etq,'epigrafes']">
                     <div class="w3-row"><!--

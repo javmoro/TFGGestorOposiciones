@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-card style=" height: 95%">
+  <ion-card>
     
     <ion-card-header>
       {{id}}
@@ -18,12 +18,32 @@
         {{titulo}}
       </ion-card-title>
     </ion-card-header>
-    <ion-button style="position: absolute;
-     border-radius: 20px;
-    padding: 10px 50px;
-    margin: 10px;
-    bottom: 0%;
-    text-align: center;
-    width: 75%;" [href]="[urlPdf]"> <ion-icon name="document-text"></ion-icon> </ion-button>
+    <ion-button [href]="[urlPdf]"> <ion-icon name="document-text"></ion-icon> </ion-button>
   </ion-card>
+  <ion-list  *ngFor="let anterior of referenciasAnteriores" style="background-color: transparent;">
+        <ion-card>
+          
+          <ion-card-header>
+            Referencias Anteriores
+            <ion-card-subtitle>{{anterior.oposicion1.id}}</ion-card-subtitle>
+            <ion-card-title>
+              {{anterior.palabra}}  {{anterior.texto}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-button [href]="[anterior.oposicion1.urlpdf]"> <ion-icon name="document-text"></ion-icon> </ion-button>
+        </ion-card>
+  </ion-list>
+  <ion-list  *ngFor="let posterior of referenciasPosteriores" style="background-color: transparent;">
+      <ion-card >
+    
+        <ion-card-header>
+          Referencias Posteriores
+          <ion-card-subtitle>{{posterior.oposicion.id}}</ion-card-subtitle>
+          <ion-card-title>
+            {{posterior.palabra}}  {{posterior.texto}}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-button [href]="[posterior.oposicion.urlpdf]"> <ion-icon name="document-text"></ion-icon> </ion-button>
+      </ion-card>
+</ion-list>
 </ion-content>

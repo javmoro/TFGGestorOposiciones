@@ -14,6 +14,10 @@ import { GlobalConstants } from 'src/app/shared/global-constants';
 export class OposicionesComponent implements OnInit {
   fecha1: String;
   fecha2: String;
+  departamento:String;
+  epigrafe:String;
+  estado:String;
+
   oposiciones: Oposicion[];
   oposicion: Oposicion;
   fechaActual: String;
@@ -31,6 +35,9 @@ export class OposicionesComponent implements OnInit {
     this.departamentos = [];
     this.fecha1 = "";
     this.fecha2 = "";
+    this.departamento="";
+    this.epigrafe="";
+    this.estado="resolucion";
     this.pagina = 1;
     this.href = this.router.url;
   }
@@ -107,30 +114,30 @@ export class OposicionesComponent implements OnInit {
         this.search = params.busqueda;
         this.fecha1 = params.desde;
         this.fecha2 = params.hasta;
-        var tipo = this.getTipoLlamada(this.search, this.fecha1, this.fecha2, this.idEp, this.idDep, this.fecha);
-        console.log(tipo);
-        switch (tipo) {
-          case 1:
-            this.getOposicionesByFrom();
-            break;
-          case 2:
-            this.getOposicionesFrom();
-            break;
-          case 3:
-            this.busquedaOposiciones();
-            break;
-          case 4:
-            this.getOposiciones();
-            break;
+        this.epigrafe = params.epigrafe;
+        this.departamento = params.departamento;
+        this.estado = params.estado;
+
+        if(this.idDep!=null||this.idEp!=null){
+          this.getOposicionesFrom()
         }
+        else{
+          if(this.search!=null||this.epigrafe!=null||this.departamento!=null||this.fecha1!=null||this.fecha2!=null||this.estado!=null){
+            this.getOposicionesBusquedaAvanzada();
+          }else{
+            this.getOposiciones();
+  
+          }
+        }
+        
       }
       );
       this.getDepartamentos();
 
   }
-  busquedaOposiciones() {
-    console.log("busqueda");
-    this.clienteApiRestService.busqueda(this.search, this.getFecha(this.fecha1), this.getFecha(this.fecha2), this.pagina).subscribe(
+  getOposicionesBusquedaAvanzada(){
+    
+    this.clienteApiRestService.busquedaAvanzada(this.search,this.departamento,this.epigrafe,this.fecha1,this.fecha2,this.estado,this.pagina).subscribe(
       resp => {
         if (resp.status < 400) {
           this.pagina++;
@@ -148,36 +155,9 @@ export class OposicionesComponent implements OnInit {
       }
     )
   }
-  buscarFecha() {
-    console.log("secamiob" + this.fecha1);
-    var date = new Date(this.fecha1 + '');
-
-    var fecha = date.getFullYear() + "-" + (date.getUTCMonth() + 1) + "-" + date.getUTCDate();
-    if (this.fecha != null) {
-      this.href = this.href.substring(0, this.href.lastIndexOf("/fecha/"));
-    }
-
-    this.router.navigateByUrl(this.href + '/fecha/' + fecha);
-  }
-  getOposicionesFecha() {
-    this.clienteApiRestService.getOposicionesByFecha(this.fecha, this.pagina).subscribe(
-      resp => {
-        if (resp.status < 400) {
-          this.pagina++;
-
-          this.oposiciones.push(...resp.body);
-        }
-        else {
-          this.datos.cambiarMensaje(new Mensaje("Error al acceder a las oposiciones"));
-        }
-      },
-      err => {
-        this.datos.cambiarMensaje(new Mensaje("Error al acceder a las oposiciones"));
-        console.log("Error al traer la lista" + err.message)
-        throw err;
-      }
-    )
-  }
+ 
+  
+  
   getCount(num: number) {
     this.clienteApiRestService.getSizeOposicion().subscribe(
       resp => {
@@ -215,25 +195,7 @@ export class OposicionesComponent implements OnInit {
     )
   }
 
-  getOposicionesByFrom() {
-    this.clienteApiRestService.getOposicionesFromByFecha(this.idDep, this.idEp, this.fecha, this.pagina).subscribe(
-      resp => {
-        if (resp.status < 400) {
-          this.pagina++;
-
-          this.oposiciones.push(...resp.body);
-        }
-        else {
-          this.datos.cambiarMensaje(new Mensaje("Error al acceder a las oposiciones"));
-        }
-      },
-      err => {
-        this.datos.cambiarMensaje(new Mensaje("Error al acceder a las oposiciones"));
-        console.log("Error al traer la lista" + err.message)
-        throw err;
-      }
-    )
-  }
+ 
   getOposicion(num: String) {
     this.clienteApiRestService.getOposicion(num).subscribe(
       resp => {
@@ -255,21 +217,16 @@ export class OposicionesComponent implements OnInit {
   cargarMasOposiciones(event) {
     console.log('Cargando siguientes..')
     setTimeout(() => {
-      var tipo = this.getTipoLlamada(this.search, this.fecha1, this.fecha2, this.idEp, this.idDep, this.fecha);
-      console.log(tipo);
-      switch (tipo) {
-        case 1:
-          this.getOposicionesByFrom();
-          break;
-        case 2:
-          this.getOposicionesFrom();
-          break;
-        case 3:
-          this.busquedaOposiciones();
-          break;
-        case 4:
+      if(this.idDep!=null||this.idEp!=null){
+        this.getOposicionesFrom()
+      }
+      else{
+        if(this.search!=null||this.epigrafe!=null||this.departamento!=null||this.fecha1!=null||this.fecha2!=null||this.estado!=null){
+          this.getOposicionesBusquedaAvanzada();
+        }else{
           this.getOposiciones();
-          break;
+
+        }
       }
       event.target.complete();
     }, 1000);
@@ -287,14 +244,25 @@ export class OposicionesComponent implements OnInit {
     this.fecha1 = "";
     this.fecha2 = "";
     this.search = "";
+    this.departamento="";
+    this.epigrafe="";
+    this.estado="Resolución";
     this.pagina = 1;
     this.href = this.router.url;
   }
   buscar() {
     var busc = this.search;
+    if(this.departamento==null){
+      this.departamento="";
+    }
+    if(this.estado==null){
+      this.estado="";
+    }
+    if(this.epigrafe==null){
+      this.epigrafe="";
+    }
     if (busc == null)
       busc = "";
-    console.log(this.fecha1 + "set");
     var f1 = this.getFecha(this.fecha1);
     var f2 = this.getFecha(this.fecha2);
 
@@ -302,7 +270,8 @@ export class OposicionesComponent implements OnInit {
 
 
     this.href = this.href.substring(0, this.href.lastIndexOf("/oposiciones/"));
-    this.router.navigateByUrl(this.href + '/oposiciones/search?busqueda=' + busc + '&desde=' + f1 + '&hasta=' + f2);
+    
+    this.router.navigateByUrl(this.href + '/oposiciones/search?busqueda=' + busc + '&departamento=' + this.departamento+'&epigrafe=' + this.epigrafe+ '&desde=' + f1 + '&hasta=' + f2+ '&estado=' + this.estado);
   }
 
   buscarEvent(q: string) {

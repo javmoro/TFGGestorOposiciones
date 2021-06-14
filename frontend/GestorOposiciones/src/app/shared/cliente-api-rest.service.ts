@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Oposicion,Epigrafe, Departamento, RelDepEpi } from './app.model';
+import { ReferenciaAnterior,Oposicion,Epigrafe, Departamento, RelDepEpi } from './app.model';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -110,5 +110,24 @@ export class ClienteApiRestService {
 
     let url = ClienteApiRestService.BASE_URI + '/oposicion/search/?busqueda='+busqueda+'&fecha1='+fecha1+'&fecha2='+fecha2+'&page='+pagina;
     return this.http.get<Oposicion[]>(url, {observe: 'response', headers: this.headers.value});
+  }
+
+
+
+  busquedaAvanzada(busqueda:String,departamento: String,epigrafe:String,fecha1:String,fecha2:String,estado:String,pagina:Number):Observable<HttpResponse<Oposicion[]>>{
+    console.log('/oposicion/search?busqueda='+busqueda+'&departamento='+departamento+'&epigrafe='+epigrafe+'&fecha1='+fecha1+'&fecha2='+fecha2+'&estado='+estado+'&page='+pagina);
+
+    let url = ClienteApiRestService.BASE_URI + '/oposicion/search?busqueda='+busqueda+'&departamento='+departamento+'&epigrafe='+epigrafe+'&fecha1='+fecha1+'&fecha2='+fecha2+'&estado='+estado+'&page='+pagina;
+    return this.http.get<Oposicion[]>(url, {observe: 'response', headers: this.headers.value});
+  }
+  getReferenciasAnteriores(id:String):Observable<HttpResponse<ReferenciaAnterior[]>>{
+    console.log('/oposicion/'+id+'/refAnterior');
+    let url = ClienteApiRestService.BASE_URI + '/oposicion/'+id+'/refAnterior';
+    return this.http.get<ReferenciaAnterior[]>(url, {observe : 'response', headers: this.headers.value});
+  }
+  getReferenciasPosteriores(id:String):Observable<HttpResponse<ReferenciaAnterior[]>>{
+    console.log('/oposicion/'+id+'/refPosterior');
+    let url = ClienteApiRestService.BASE_URI + '/oposicion/'+id+'/refPosterior';
+    return this.http.get<ReferenciaAnterior[]>(url, {observe : 'response', headers: this.headers.value});
   }
 }

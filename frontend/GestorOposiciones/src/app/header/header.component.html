@@ -3,6 +3,7 @@
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title>Menu</ion-title>
+      
     </ion-toolbar>
   </ion-header>
 
@@ -12,20 +13,26 @@
         Directorios
       </ion-list-header>
       <ion-menu-toggle auto-hide="false">
-        <ion-item button [routerLink]="['/oposiciones']">
+        <ion-item button [routerLink]="['/home']">
           <ion-icon slot="start" name='home'></ion-icon>
+          <ion-label >
+            Inicio
+          </ion-label>
+        </ion-item>
+        <ion-item button [routerLink]="['/oposiciones']">
+          <ion-icon slot="start" name='calendar-outline'></ion-icon>
           <ion-label >
             Oposiciones
           </ion-label>
         </ion-item>
         <ion-item button [routerLink]="['/departamentos']">
-          <ion-icon slot="start" name='home'></ion-icon>
+          <ion-icon slot="start" name='business-outline'></ion-icon>
           <ion-label>
             Departamentos
           </ion-label>
         </ion-item>
         <ion-item button [routerLink]="['/epigrafes']">
-          <ion-icon slot="start" name='home'></ion-icon>
+          <ion-icon slot = "start" name="calculator-outline"></ion-icon>
           <ion-label>
             Epigrafes
           </ion-label>

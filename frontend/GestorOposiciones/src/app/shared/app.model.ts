@@ -17,6 +17,7 @@ export interface RelDepEpi{
 
 export class Oposicion {
     readonly control: String;
+    estado:String;
     fecha: Date;
     id: String;
     urlxml:String;
@@ -27,7 +28,17 @@ export class Oposicion {
         this.id = _control || "";
     }
 }
-
+export class ReferenciaAnteriorPK{
+    idRefAnterior: String;
+    idRefPosterior: String;
+}
+export class ReferenciaAnterior{
+    oposicion1:Oposicion;
+    oposicion:Oposicion;
+    referenciaAnteriorPK: ReferenciaAnteriorPK;
+    texto:String;
+    palabra: String;
+}
 
 export enum Tipo{
     SUCCESS = "success",
