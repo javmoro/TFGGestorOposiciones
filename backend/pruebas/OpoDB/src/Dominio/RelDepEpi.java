@@ -6,14 +6,18 @@
 package Dominio;
 
 import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,6 +34,8 @@ public class RelDepEpi implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected RelDepEpiPK relDepEpiPK;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relDepEpi")
+    private Collection<Oposicion> oposicionCollection;
     @JoinColumn(name = "ETQDEP", referencedColumnName = "ETQ", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Departamento departamento;
@@ -54,6 +60,15 @@ public class RelDepEpi implements Serializable {
 
     public void setRelDepEpiPK(RelDepEpiPK relDepEpiPK) {
         this.relDepEpiPK = relDepEpiPK;
+    }
+
+    @XmlTransient
+    public Collection<Oposicion> getOposicionCollection() {
+        return oposicionCollection;
+    }
+
+    public void setOposicionCollection(Collection<Oposicion> oposicionCollection) {
+        this.oposicionCollection = oposicionCollection;
     }
 
     public Departamento getDepartamento() {

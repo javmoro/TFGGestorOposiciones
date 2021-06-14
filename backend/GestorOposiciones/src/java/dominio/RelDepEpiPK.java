@@ -20,12 +20,12 @@ import javax.validation.constraints.Size;
 public class RelDepEpiPK implements Serializable {
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 1000)
     @Column(name = "NOMBREEP")
     private String nombreep;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 1000)
     @Column(name = "ETQDEP")
     private String etqdep;
 

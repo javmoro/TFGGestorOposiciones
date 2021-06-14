@@ -35,5 +35,7 @@ public interface OposicionFacadeLocal {
     List<Oposicion> findOposicionFechasId(String busqueda,Date fecha1,Date fecha2,int array[]);
     List<Oposicion> findOposicionFechaId(String busqueda,Date fecha,int array[]);
     List<Oposicion> findOposicionFechas(Date fecha1,Date fecha2,int array[]);
+    List<Oposicion> findOposicionAvanzada(String estado, Date fecha1, Date fecha2, String departamento, String epigrafe, String busqueda);
+    List<Oposicion> findOposicionAvanzadaPage(String estado, Date fecha1, Date fecha2, String departamento, String epigrafe, String busqueda, int array[]);
 
 }

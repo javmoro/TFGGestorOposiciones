@@ -4,9 +4,12 @@
  * and open the template in the editor.
  */
 package dominio;
-import java.sql.Date;
+
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,10 +18,14 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,30 +38,59 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Oposicion.findAll", query = "SELECT o FROM Oposicion o"),
     @NamedQuery(name = "Oposicion.findById", query = "SELECT o FROM Oposicion o WHERE o.id = :id"),
     @NamedQuery(name = "Oposicion.findByFecha", query = "SELECT o FROM Oposicion o WHERE o.fecha = :fecha"),
-    @NamedQuery(name = "Oposicion.findByControl", query = "SELECT o FROM Oposicion o WHERE o.control = :control")})
+    @NamedQuery(name = "Oposicion.findByControl", query = "SELECT o FROM Oposicion o WHERE o.control = :control"),
+    @NamedQuery(name = "Oposicion.findByUrlpdf", query = "SELECT o FROM Oposicion o WHERE o.urlpdf = :urlpdf"),
+    @NamedQuery(name = "Oposicion.findByUrlxml", query = "SELECT o FROM Oposicion o WHERE o.urlxml = :urlxml"),
+    @NamedQuery(name = "Oposicion.findByTitulo", query = "SELECT o FROM Oposicion o WHERE o.titulo = :titulo")})
 public class Oposicion implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "ESTADO")
+    private String estado;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1000)
     @Column(name = "ID")
     private String id;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "FECHA")
+    @Temporal(TemporalType.DATE)
     private Date fecha;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
     @Column(name = "CONTROL")
     private String control;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "URLPDF")
+    private String urlpdf;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "URLXML")
+    private String urlxml;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2000)
+    @Column(name = "TITULO")
+    private String titulo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "oposicion")
+    private Collection<ReferenciaAnterior> referenciaAnteriorCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "oposicion1")
+    private Collection<ReferenciaAnterior> referenciaAnteriorCollection1;
     @JoinColumns({
         @JoinColumn(name = "NOMBREEP", referencedColumnName = "NOMBREEP"),
         @JoinColumn(name = "ETQDEP", referencedColumnName = "ETQDEP")})
     @ManyToOne(optional = false)
     private RelDepEpi relDepEpi;
-    @Column(name = "URLPDF")
-    private String urlpdf;
-    @Column(name = "URLXML")
-    private String urlxml;
-    @Column(name = "TITULO")
-    private String titulo;
+
     public Oposicion() {
     }
 
@@ -62,7 +98,7 @@ public class Oposicion implements Serializable {
         this.id = id;
     }
 
-    public Oposicion(String id, Date fecha, String control,String urlpdf, String urlxml,String titulo) {
+    public Oposicion(String id, Date fecha, String control, String urlpdf, String urlxml, String titulo) {
         this.id = id;
         this.fecha = fecha;
         this.control = control;
@@ -71,25 +107,6 @@ public class Oposicion implements Serializable {
         this.titulo = titulo;
     }
 
-    public String getUrlxml(){
-        return urlxml;
-    }
-    public void setUrlxml(String urlxml){
-        this.urlxml = urlxml;
-    }
-    
-    public String getUrlpdf(){
-        return urlpdf;
-    }
-    public void setUrlpdf(String urlpdf){
-        this.urlpdf = urlpdf;
-    }
-    public String getTitulo(){
-        return titulo;
-    }
-    public void setTitulo(String titulo){
-        this.titulo = titulo;
-    }
     public String getId() {
         return id;
     }
@@ -112,6 +129,48 @@ public class Oposicion implements Serializable {
 
     public void setControl(String control) {
         this.control = control;
+    }
+
+    public String getUrlpdf() {
+        return urlpdf;
+    }
+
+    public void setUrlpdf(String urlpdf) {
+        this.urlpdf = urlpdf;
+    }
+
+    public String getUrlxml() {
+        return urlxml;
+    }
+
+    public void setUrlxml(String urlxml) {
+        this.urlxml = urlxml;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    @XmlTransient
+    public Collection<ReferenciaAnterior> getReferenciaAnteriorCollection() {
+        return referenciaAnteriorCollection;
+    }
+
+    public void setReferenciaAnteriorCollection(Collection<ReferenciaAnterior> referenciaAnteriorCollection) {
+        this.referenciaAnteriorCollection = referenciaAnteriorCollection;
+    }
+
+    @XmlTransient
+    public Collection<ReferenciaAnterior> getReferenciaAnteriorCollection1() {
+        return referenciaAnteriorCollection1;
+    }
+
+    public void setReferenciaAnteriorCollection1(Collection<ReferenciaAnterior> referenciaAnteriorCollection1) {
+        this.referenciaAnteriorCollection1 = referenciaAnteriorCollection1;
     }
 
     public RelDepEpi getRelDepEpi() {
@@ -144,7 +203,17 @@ public class Oposicion implements Serializable {
 
     @Override
     public String toString() {
-        return "Dominio.Oposicion[ id=" + id + " ]";
+        return "dominio.Oposicion[ id=" + id + " ]";
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+
     
 }

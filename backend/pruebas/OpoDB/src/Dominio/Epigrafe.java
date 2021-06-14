@@ -16,6 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -23,8 +25,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "EPIGRAFE")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Epigrafe.findAll", query = "SELECT e FROM Epigrafe e")})
+    @NamedQuery(name = "Epigrafe.findAll", query = "SELECT e FROM Epigrafe e"),
+    @NamedQuery(name = "Epigrafe.findByNombre", query = "SELECT e FROM Epigrafe e WHERE e.nombre = :nombre")})
 public class Epigrafe implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,6 +53,7 @@ public class Epigrafe implements Serializable {
         this.nombre = nombre;
     }
 
+    @XmlTransient
     public Collection<RelDepEpi> getRelDepEpiCollection() {
         return relDepEpiCollection;
     }

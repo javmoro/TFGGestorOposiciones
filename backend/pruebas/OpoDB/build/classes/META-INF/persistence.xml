@@ -6,6 +6,7 @@
     <class>Dominio.Departamento</class>
     <class>Dominio.Epigrafe</class>
     <class>Dominio.RelDepEpi</class>
+    <class>Dominio.ReferenciaAnterior</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/OpoDB"/>
       <property name="javax.persistence.jdbc.user" value="usuario"/>

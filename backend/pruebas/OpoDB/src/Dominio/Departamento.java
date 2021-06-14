@@ -16,6 +16,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -23,8 +25,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "DEPARTAMENTO")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Departamento.findAll", query = "SELECT d FROM Departamento d")})
+    @NamedQuery(name = "Departamento.findAll", query = "SELECT d FROM Departamento d"),
+    @NamedQuery(name = "Departamento.findByEtq", query = "SELECT d FROM Departamento d WHERE d.etq = :etq"),
+    @NamedQuery(name = "Departamento.findByNombre", query = "SELECT d FROM Departamento d WHERE d.nombre = :nombre")})
 public class Departamento implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -65,6 +70,7 @@ public class Departamento implements Serializable {
         this.nombre = nombre;
     }
 
+    @XmlTransient
     public Collection<RelDepEpi> getRelDepEpiCollection() {
         return relDepEpiCollection;
     }

@@ -33,7 +33,8 @@ import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import persistencia.OposicionFacadeLocal;
-
+import persistencia.ReferenciaAnteriorFacadeLocal;
+import dominio.ReferenciaAnterior;
 
 /**
  * REST Web Service
@@ -42,6 +43,7 @@ import persistencia.OposicionFacadeLocal;
  */
 @Path("oposicion")
 public class OposicionResource implements ContainerResponseFilter{
+    ReferenciaAnteriorFacadeLocal referenciaAnteriorFacade = lookupReferenciaAnteriorFacadeLocal();
     OposicionFacadeLocal oposicionFacade = lookupOposicionFacadeLocal();
     private static final String SERV_ERR="Error en el sistema al acceder a la configuracion";
     private static final String CONF_BORR_ERROR="Error al intentar borrar la configuracion seleccionada";
@@ -97,6 +99,20 @@ public class OposicionResource implements ContainerResponseFilter{
         //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
            //         .build();
     }
+    @GET
+    @Path("{id}/refAnterior")
+    @Produces("applicaction/json")
+    public List<ReferenciaAnterior> findRefAnteriores(@PathParam("id") String id) {
+        return referenciaAnteriorFacade.findReferenciaAnterior(id);
+    }
+    
+    @GET
+    @Path("{id}/refPosterior")
+    @Produces("applicaction/json")
+    public List<ReferenciaAnterior> findRefPosteriores(@PathParam("id") String id) {
+        return referenciaAnteriorFacade.findReferenciaPosterior(id);
+    }
+    
     
     @GET
     @Produces( "application/json")
@@ -130,41 +146,20 @@ public class OposicionResource implements ContainerResponseFilter{
         return 1;
     }
     @GET
-    @Path("search")
+    @Path("search/")
     @Produces( "application/json")
-    public List<Oposicion> findBusquedaCompleta(@QueryParam("busqueda") String busqueda,@QueryParam("departamento") String departamento,@QueryParam("fecha1") Date fecha1,@QueryParam("fecha2") Date fecha2,@QueryParam("page") int page) {
+    
+    public List<Oposicion> findBusquedaCompleta(@QueryParam("titulo") String titulo,@QueryParam("departamento") String departamento,@QueryParam("epigrafe") String epigrafe,@QueryParam("fecha1") Date fecha1,@QueryParam("fecha2") Date fecha2,@QueryParam("estado") String estado, @QueryParam("page") int page) {
         if(page<1){
-            page =0;
+            return oposicionFacade.findOposicionAvanzada(estado,fecha1,fecha2,departamento,epigrafe,titulo);
         }
         page--;
         int array[] = new int[2];
         array[0] = page*numValores;
         array[1] = array[0]+numValores-1;
-        int tipo = tipoPeticion(busqueda,fecha1,fecha2);
-
-        switch(tipo){
-            //Busqueda de una fecha
-            case 2:
-                System.out.println("fecha");
-                return oposicionFacade.findRange(array, fecha1);
-            //Busqueda por id en una fecha
-            case 3:
-                System.out.println("busqueda fecha ");
-                return oposicionFacade.findOposicionFechaId(busqueda, fecha1, array);
-            //Busqueda entre fechas
-            case 4:
-                System.out.println("fecha1 fecha2");
-                return oposicionFacade.findOposicionFechas(fecha1, fecha2, array);
-            //Busqueda por id entre fechas
-            case 5:
-                System.out.println("busqueda fecha fecha2");
-                return oposicionFacade.findOposicionFechasId(busqueda, fecha1, fecha2, array);
-            
-        }
-        
-        return oposicionFacade.findOposicionBusqueda(busqueda, array);
-    }
-  
+        return oposicionFacade.findOposicionAvanzadaPage(estado,fecha1,fecha2,departamento,epigrafe,titulo,array);
+    }        
+    
     
     @GET
     @Path("count")
@@ -184,6 +179,16 @@ public class OposicionResource implements ContainerResponseFilter{
         }
     }
 
+    private ReferenciaAnteriorFacadeLocal lookupReferenciaAnteriorFacadeLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (ReferenciaAnteriorFacadeLocal) c.lookup("java:global/GestorOposiciones/ReferenciaAnteriorFacade!persistencia.ReferenciaAnteriorFacadeLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+    
     
     
 }
