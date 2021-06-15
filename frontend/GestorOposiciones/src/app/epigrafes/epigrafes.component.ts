@@ -41,7 +41,7 @@ export class EpigrafesComponent implements OnInit {
 
     this.router.navigateByUrl(this.href + '/epigrafes/search/' + q);
   }
-  cargarMasOposiciones(event) {
+  cargarMasEpigrafes(event) {
     console.log('Cargando siguientes..')
     setTimeout(() => {
       if(this.search==null)

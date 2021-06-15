@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { EpigrafesComponent } from './epigrafes.component';
 
 describe('EpigrafesComponent', () => {
@@ -10,7 +11,7 @@ describe('EpigrafesComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EpigrafesComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot(),RouterTestingModule,HttpClientTestingModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(EpigrafesComponent);

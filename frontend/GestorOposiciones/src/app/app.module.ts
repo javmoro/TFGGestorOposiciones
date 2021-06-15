@@ -5,7 +5,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { ClienteApiRestService } from './shared/cliente-api-rest.service';
 import { DataService } from './shared/data.service'; 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { OposicionesComponent } from './oposiciones/oposiciones.component';
 import { DepartamentosComponent} from './departamentos/departamentos.component';
 import { EpigrafesComponent} from './epigrafes/epigrafes.component';
@@ -24,6 +24,7 @@ import { HeaderComponent } from './header/header.component';
   
   imports: [CommonModule,BrowserModule, IonicModule.forRoot(), AppRoutingModule,PdfViewerModule,HttpClientModule,FormsModule],
   providers: [
+    HttpClient,
     ClienteApiRestService,
     DataService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

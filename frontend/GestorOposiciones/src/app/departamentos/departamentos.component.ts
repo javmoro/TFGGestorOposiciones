@@ -41,7 +41,7 @@ export class DepartamentosComponent implements OnInit {
     this.router.navigateByUrl(this.href + '/departamentos/search/' + q);
   }
 
-  cargarMasOposiciones(event) {
+  cargarMasDepartamentos(event) {
     console.log('Cargando siguientes..')
     setTimeout(() => {
       if (this.search == null)

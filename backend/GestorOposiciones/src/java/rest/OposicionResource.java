@@ -92,6 +92,7 @@ public class OposicionResource implements ContainerResponseFilter{
     @Path("fechas")
     @Produces( "application/json")
     public List<Oposicion> findBetween(@QueryParam("fecha1") Date fecha1,@QueryParam("fecha2") Date fecha2,@QueryParam("page") int page) {
+
         int array[] = new int[2];
         array[0] = page*numValores;
         array[1] = array[0]+numValores-1;
@@ -117,6 +118,7 @@ public class OposicionResource implements ContainerResponseFilter{
     @GET
     @Produces( "application/json")
     public Oposicion[] findAll(@QueryParam("fecha") Date fecha,@QueryParam("page") int page) {
+        System.out.println("find oposiciones");
         if(page==0){
             return oposicionFacade.findAll().toArray(new Oposicion[0]);
         }
@@ -150,6 +152,7 @@ public class OposicionResource implements ContainerResponseFilter{
     @Produces( "application/json")
     
     public List<Oposicion> findBusquedaCompleta(@QueryParam("titulo") String titulo,@QueryParam("departamento") String departamento,@QueryParam("epigrafe") String epigrafe,@QueryParam("fecha1") Date fecha1,@QueryParam("fecha2") Date fecha2,@QueryParam("estado") String estado, @QueryParam("page") int page) {
+        System.out.println("find busqueda");
         if(page<1){
             return oposicionFacade.findOposicionAvanzada(estado,fecha1,fecha2,departamento,epigrafe,titulo);
         }

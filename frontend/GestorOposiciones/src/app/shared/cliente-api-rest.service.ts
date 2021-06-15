@@ -25,7 +25,7 @@ export class ClienteApiRestService {
     return this.http.get<Oposicion[]>(url, {observe: 'response', headers: this.headers.value});
   }
   getOposiciones(pagina: Number): Observable<HttpResponse<Oposicion[]>>{
-    console.log('get oposiciones'+pagina);
+    console.log('/oposicion?page='+pagina);
     let url = ClienteApiRestService.BASE_URI + '/oposicion?page='+pagina;
     return this.http.get<Oposicion[]>(url, {observe: 'response', headers: this.headers.value});
   }
