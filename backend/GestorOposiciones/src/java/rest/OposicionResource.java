@@ -151,7 +151,7 @@ public class OposicionResource implements ContainerResponseFilter{
     @Path("search/")
     @Produces( "application/json")
     
-    public List<Oposicion> findBusquedaCompleta(@QueryParam("titulo") String titulo,@QueryParam("departamento") String departamento,@QueryParam("epigrafe") String epigrafe,@QueryParam("fecha1") Date fecha1,@QueryParam("fecha2") Date fecha2,@QueryParam("estado") String estado, @QueryParam("page") int page) {
+        public List<Oposicion> findBusquedaCompleta(@QueryParam("titulo") String titulo,@QueryParam("departamento") String departamento,@QueryParam("epigrafe") String epigrafe,@QueryParam("fecha1") Date fecha1,@QueryParam("fecha2") Date fecha2,@QueryParam("estado") String estado, @QueryParam("page") int page) {
         System.out.println("find busqueda");
         if(page<1){
             return oposicionFacade.findOposicionAvanzada(estado,fecha1,fecha2,departamento,epigrafe,titulo);

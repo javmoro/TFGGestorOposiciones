@@ -69,7 +69,7 @@ public class DepartamentoResource implements ContainerResponseFilter{
     }
     */
     @GET
-    @Produces({"application/xml", "application/json"})
+    @Produces({ "application/json"})
     public Departamento[] findAll(@QueryParam("page") int page) {
         if(page==0){
             return departamentoFacade.findAll().toArray(new Departamento[0]);
@@ -108,7 +108,7 @@ public class DepartamentoResource implements ContainerResponseFilter{
     @GET
     @Path("{id}/epigrafes/{nombreEp}/oposiciones")
     @Produces( "application/json")
-    public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("nombreEp") String nombreEp,@QueryParam("fecha") Date fecha,@QueryParam("page") int page) {
+    public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("nombreEp") String nombreEp,@QueryParam("page") int page) {
         page--;
         if(page<0){
             page =0;
@@ -116,7 +116,7 @@ public class DepartamentoResource implements ContainerResponseFilter{
         int array[] = new int[2];
         array[0] = page*numValores;
         array[1] = array[0]+numValores-1;
-        return oposicionFacade.findOposicion(id,nombreEp,array,fecha);
+        return oposicionFacade.findOposicion(id,nombreEp,array,null);
     }
 
 

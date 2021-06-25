@@ -117,7 +117,7 @@ export class ClienteApiRestService {
   busquedaAvanzada(busqueda:String,departamento: String,epigrafe:String,fecha1:String,fecha2:String,estado:String,pagina:Number):Observable<HttpResponse<Oposicion[]>>{
     console.log('/oposicion/search?busqueda='+busqueda+'&departamento='+departamento+'&epigrafe='+epigrafe+'&fecha1='+fecha1+'&fecha2='+fecha2+'&estado='+estado+'&page='+pagina);
 
-    let url = ClienteApiRestService.BASE_URI + '/oposicion/search?busqueda='+busqueda+'&departamento='+departamento+'&epigrafe='+epigrafe+'&fecha1='+fecha1+'&fecha2='+fecha2+'&estado='+estado+'&page='+pagina;
+    let url = ClienteApiRestService.BASE_URI + '/oposicion/search?titulo='+busqueda+'&departamento='+departamento+'&epigrafe='+epigrafe+'&fecha1='+fecha1+'&fecha2='+fecha2+'&estado='+estado+'&page='+pagina;
     return this.http.get<Oposicion[]>(url, {observe: 'response', headers: this.headers.value});
   }
   getReferenciasAnteriores(id:String):Observable<HttpResponse<ReferenciaAnterior[]>>{

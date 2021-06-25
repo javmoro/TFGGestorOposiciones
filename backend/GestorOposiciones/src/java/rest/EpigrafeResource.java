@@ -104,7 +104,7 @@ public class EpigrafeResource implements ContainerResponseFilter{
     @GET
     @Path("{id}/departamentos/{etqDep}/oposiciones")
     @Produces( "application/json")
-    public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("etqDep") String etqDep,@QueryParam("fecha") Date fecha,@QueryParam("page") int page) {
+    public List<Oposicion> findEpigrafeOposicion(@PathParam("id") String id,@PathParam("etqDep") String etqDep,@QueryParam("page") int page) {
         page--;
         if(page<0){
             page =0;
@@ -112,7 +112,7 @@ public class EpigrafeResource implements ContainerResponseFilter{
         int array[] = new int[2];
         array[0] = page*numValores;
         array[1] = array[0]+numValores-1;
-        return oposicionFacade.findOposicion(etqDep,id,array,fecha);
+        return oposicionFacade.findOposicion(etqDep,id,array,null);
     }
     
     private EpigrafeFacadeLocal lookupEpigrafeFacadeLocal() {

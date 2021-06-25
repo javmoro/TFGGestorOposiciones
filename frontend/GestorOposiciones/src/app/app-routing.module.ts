@@ -24,7 +24,7 @@ const routes: Routes = [
   {path: 'departamentos/search/:search',component:DepartamentosComponent},
   {path: 'epigrafes/search/:search',component:EpigrafesComponent},
   {path:  'home', component:HomeComponent},
-  {path: '**', redirectTo:'oposiciones', pathMatch:'full'},
+  {path: '**', redirectTo:'home', pathMatch:'full'},
 
   
   
