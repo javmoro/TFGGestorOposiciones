@@ -9,7 +9,7 @@ import javax.persistence.metamodel.CollectionAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-06-20T12:22:57")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-06-26T11:53:35")
 @StaticMetamodel(RelDepEpi.class)
 public class RelDepEpi_ { 
 

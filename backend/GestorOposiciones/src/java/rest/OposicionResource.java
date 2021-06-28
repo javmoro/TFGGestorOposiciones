@@ -66,14 +66,7 @@ public class OposicionResource implements ContainerResponseFilter{
      */
     public OposicionResource() {
     }
-    /*@GET
-    @Produces({"application/xml", "application/json"})
-    public Response findAll() {
-        return Response.status(Response.Status.OK)// Si si esta autenticado
-                    .entity(oposicionFacade.findAll().toArray(new Oposicion[0]))
-                    .build();
-        //return oposicionFacade.findAll();
-    }*/
+    
     @GET
     @Path("{id}")
     @Produces( "application/json")
@@ -88,18 +81,7 @@ public class OposicionResource implements ContainerResponseFilter{
         return oposicionFacade.findTitulo(id);
     }
 
-    @GET
-    @Path("fechas")
-    @Produces( "application/json")
-    public List<Oposicion> findBetween(@QueryParam("fecha1") Date fecha1,@QueryParam("fecha2") Date fecha2,@QueryParam("page") int page) {
-
-        int array[] = new int[2];
-        array[0] = page*numValores;
-        array[1] = array[0]+numValores-1;
-        return oposicionFacade.findOposicionFechas(fecha1,fecha2,array);
-        //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
-           //         .build();
-    }
+    
     @GET
     @Path("{id}/refAnterior")
     @Produces("applicaction/json")
@@ -127,26 +109,10 @@ public class OposicionResource implements ContainerResponseFilter{
         array[0] = page*numValores;
         array[1] = array[0]+numValores-1;
         return oposicionFacade.findRange(array,fecha).toArray(new Oposicion[0]);
-        //return Response.status(Response.Status.OK).entity(oposicionFacade.findRange(array).toArray(new Oposicion[0])).status(oposicionFacade.count())
-           //         .build();
+
     }
     
-    //Devuelve 1 si la peticion es solo para el Id, 2 si es una fecha, 3 si es id y fecha, 4 si es entre fechas,5 si es id y entre fechas
-    int tipoPeticion(String id, Date fecha1, Date fecha2){        
-        if(id.equals("")&&fecha1!=null&&fecha2==null){
-            return 2;
-        }
-        if(id.equals("")&&fecha1!=null&&fecha2!=null){
-            return 4;
-        }
-        if(!id.equals("")&&fecha1!=null&&fecha2==null){
-            return 3;
-        }
-        if(!id.equals("")&&fecha1!=null&&fecha2!=null){
-            return 5;
-        }
-        return 1;
-    }
+ 
     @GET
     @Path("search/")
     @Produces( "application/json")
