@@ -1,0 +1,159 @@
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./oposiciones.component.scss">
+<style>
+  html,
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Raleway", sans-serif
+  }
+</style>
+<ion-app>
+
+  <div class="ion-page" id="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="11.5" size-md ="10" offset-md = "1" size-lg="8" offset-lg="2" size-xl="6" offset-xl="3">
+          <h1>Oposiciones</h1>
+          </ion-col>
+          
+        </ion-row>
+        <ion-row>
+          <ion-col size="11.75" size-md="10" offset-md="1" size-lg="8" offset-lg="2" size-xl="6.5" offset-xl="2.75"
+            style="padding-left:5px" style="padding-right:5px">
+            <ion-toolbar color="secondary">
+              <ion-row>
+                <ion-col size="11.55">
+                  <ion-searchbar color= "dark" placeholder="Buscar por título" style="padding-left:0px;padding-right:0px; border: 0;
+                  box-shadow: none;" [(ngModel)]="search" [animated]="true"
+                    [showCancelButton]="false" #q (keyup.enter)="buscarEvent(q.value)">
+                  </ion-searchbar>
+                </ion-col>
+                <ion-col size="11.75" size-sm="5.75">
+                  <ion-item  style=" height: 45px; padding-right:5px;">
+                    <ion-label>Departamento</ion-label>
+                    <ion-input [(ngModel)]="departamento" style= "height: 45px;"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="11.75" size-sm="5.75">
+                  <ion-item  style="padding-right:5px; height: 45px;">
+                    <ion-label>Especialidad</ion-label>
+                    <ion-input [(ngModel)]="epigrafe" style= "height: 45px;"></ion-input>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="5.79" size-sm="3.25" style="padding-right:0px">
+                  <ion-item>
+                    <ion-label>Desde: </ion-label>
+                    <ion-datetime [(ngModel)]="fecha1" cancelText="Cancelar" doneText="Aceptar"
+                      displayFormat="YYYY-MM-DD"
+                      monthShortNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre">
+                    </ion-datetime>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="5.79" size-sm="3.25" style="padding-left: 0px;padding-right:5px"
+                  style-sm="padding-right:0px">
+                  <ion-item>
+                    <ion-label>Hasta:</ion-label>
+                    <ion-datetime [(ngModel)]="fecha2" cancelText="Cancelar" doneText="Aceptar"
+                      displayFormat="YYYY-MM-DD"
+                      monthShortNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre">
+                    </ion-datetime>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="11.82" size-sm="3">
+                  <ion-item style="padding-right:8px">
+                    <ion-select  [(ngModel)]="estado" interface="popover" >
+                      <ion-select-option value="Resolución">Resolución</ion-select-option>
+                      <ion-select-option value="Aprobado">Aprobado</ion-select-option>
+                      <ion-select-option value="Cancelado">Cancelado</ion-select-option>
+                      <ion-select-option value="Corrección">Corrección</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+                
+                <ion-col size="11.82" size-sm="1.8">
+                  <ion-button style="padding-right:5px;padding-left:0px" expand="full" (click)="buscar()"> Buscar </ion-button>
+                </ion-col>
+
+              </ion-row>
+            </ion-toolbar>
+
+          </ion-col>
+
+          <ion-col size-xs="11.75" size-md="10" offset-md="1" size-lg="8" offset-lg="2" size-xl="6.5" offset-xl="2.75" style="background-color: #e3e8e7;" >
+            <ion-list size="2000" *ngFor="let opos of oposiciones">
+              <!--<ion-item [href]="[opos.urlpdf]">-->
+              <!--<ion-item [routerLink]="['/oposiciones',opos.id]">-->
+              <ion-item button="true"
+                (click)="_abrirDetalle(opos.id,opos.titulo,opos.relDepEpi.epigrafe.nombre,opos.relDepEpi.departamento.nombre,opos.urlpdf)">
+
+
+                <div class="w3-row">
+                  <div class="w3-col m20 w3-container" *ngIf="opos.fecha.toString().substr(0,10)!=fechaActual">
+                    <div *ngIf="opos.estado!='Corrección'">
+                      <h4>{{opos.relDepEpi.relDepEpiPK.nombreep}} <span
+                          class="w3-opacity w3-medium">{{opos.fecha.toString().substr(0,10)}}</span>
+                      </h4>
+                      <p>{{opos.relDepEpi.departamento.nombre}} <span class="w3-opacity w3-medium"> {{opos.estado}}
+                        </span></p>
+                    </div>
+                    <div *ngIf="opos.estado=='Corrección'" style="color: cadetblue;">
+                      <h4>{{opos.relDepEpi.relDepEpiPK.nombreep}} <span
+                          class="w3-opacity w3-medium">{{opos.fecha.toString().substr(0,10)}}</span>
+                      </h4>
+                      <p>{{opos.relDepEpi.departamento.nombre}}<span class="w3-opacity w3-medium"> {{opos.estado}}
+                      </span></p>
+                    </div>
+
+
+                  </div>
+                  <div class="w3-col m20 w3-container" *ngIf="opos.fecha.toString().substr(0,10)==fechaActual">
+
+                    <div *ngIf="opos.estado!='Corrección'">
+                      <h4>{{opos.relDepEpi.relDepEpiPK.nombreep}} <span
+                          class="w3-opacity w3-medium">{{opos.fecha.toString().substr(0,10)}}</span>
+                      </h4>
+                      <p>{{opos.relDepEpi.departamento.nombre}} <span class="w3-opacity w3-medium"> {{opos.estado}}
+                        </span></p>
+                    </div>
+                    <div *ngIf="opos.estado=='Corrección'" style="color: cadetblue;">
+                      <h4>{{opos.relDepEpi.relDepEpiPK.nombreep}} <span
+                          class="w3-opacity w3-medium">{{opos.fecha.toString().substr(0,10)}}</span>
+                      </h4>
+                      <p>{{opos.relDepEpi.departamento.nombre}}<span class="w3-opacity w3-medium"> {{opos.estado}}
+                      </span></p>
+                    </div>
+
+                  </div>
+                </div>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="cargarMasOposiciones($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
+    </ion-content>
+  </div>
+
+</ion-app>

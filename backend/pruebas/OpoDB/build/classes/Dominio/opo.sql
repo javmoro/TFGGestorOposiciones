@@ -1,0 +1,26 @@
+drop table OPOSICION;
+drop table EPIGRAFE;
+drop table DEPARTAMENTO;
+
+
+
+create table DEPARTAMENTO(
+ETQ VARCHAR(100) not null primary key,
+NOMBRE VARCHAR(100) not null
+);
+
+create table EPIGRAFE(
+NOMBRE VARCHAR(100) not null primary key,
+ETQDEP VARCHAR(100) not null,
+FOREIGN KEY(ETQDEP) REFERENCES DEPARTAMENTO(ETQ)
+);
+
+create table OPOSICION(
+URLPDF VARCHAR(200) not null,
+URLXML VARCHAR(200) not null,
+ID VARCHAR(100) not null primary key,
+FECHA DATE not null,
+CONTROL VARCHAR(10) not null,
+NOMBREEP VARCHAR(100) not null,
+FOREIGN KEY(NOMBREEP) REFERENCES EPIGRAFE(NOMBRE)
+)

@@ -1,0 +1,7 @@
+{
+  "name": "GestorOposiciones",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
