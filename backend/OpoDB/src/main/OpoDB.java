@@ -46,7 +46,6 @@ public class OpoDB {
         }else{
             date = LocalDate.now();
         }
-        date = LocalDate.of(2020, 8,24);
         String fecha;
     //System.out.println(fecha);
         
