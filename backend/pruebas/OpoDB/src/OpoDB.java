@@ -46,18 +46,14 @@ public class OpoDB {
         }
         
         String fecha;
-    //System.out.println(fecha);
         
         for (int i = 0; date.isBefore(LocalDate.now()) || date.equals(LocalDate.now()); i++) {
-            if (date.getMonthValue() == 2 && date.getDayOfMonth() == 5) {
-                //System.out.println("Feliz Cumple maricon");
-            }
+
             fecha = getFecha(date);
             System.out.println("https://boe.es/diario_boe/xml.php?id=BOE-S-" + fecha);
             getBoe("https://boe.es/diario_boe/xml.php?id=BOE-S-" + fecha, fecha);
             date = date.plusDays(1);
         }
-        //System.out.println("error Departamento: "+ errorDepartamento+"\n"+ "error epigrafe: "+ errorEpigrafe+"\n"+ "error oposicion: "+ errorOposicion);
     }
 
     
@@ -67,7 +63,6 @@ public class OpoDB {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(new URL(url).openStream());
-        //System.out.println(fecha);
 
             Element e = getElementoUnico("diario", doc.getDocumentElement(), 0);
             if (e == null) {
