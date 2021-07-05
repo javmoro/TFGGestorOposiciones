@@ -1,12 +1,14 @@
+package main;
+
 import java.text.SimpleDateFormat;
 
-import Dominio.Departamento;
-import Dominio.Epigrafe;
-import Dominio.Oposicion;
-import Dominio.RelDepEpi;
-import Dominio.RelDepEpiPK;
-import Dominio.ReferenciaAnterior;
-import Dominio.ReferenciaAnteriorPK;
+import dominio.Departamento;
+import dominio.Epigrafe;
+import dominio.Oposicion;
+import dominio.RelDepEpi;
+import dominio.RelDepEpiPK;
+import dominio.ReferenciaAnterior;
+import dominio.ReferenciaAnteriorPK;
 import java.io.IOException;
 
 import java.net.URL;
@@ -48,9 +50,12 @@ public class OpoDB {
         String fecha;
         
         for (int i = 0; date.isBefore(LocalDate.now()) || date.equals(LocalDate.now()); i++) {
-
+           
             fecha = getFecha(date);
+            
             System.out.println("https://boe.es/diario_boe/xml.php?id=BOE-S-" + fecha);
+            
+            //recogemos los datos del boe en cuestion
             getBoe("https://boe.es/diario_boe/xml.php?id=BOE-S-" + fecha, fecha);
             date = date.plusDays(1);
         }
@@ -60,43 +65,50 @@ public class OpoDB {
 
     public static void getBoe(String url, String fecha) {
         try {
+            
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(new URL(url).openStream());
-
+            //recogemos los datos del elemento diario
             Element e = getElementoUnico("diario", doc.getDocumentElement(), 0);
             if (e == null) {
                 throw new NullPointerException("Es domingo");
             }
+            //nos dirigimos a la seccion oposiciones
             Element el = getSeccionOposiciones(e);
             if (el == null) {
                 throw new NullPointerException("No hay oposiciones en el BOE");
             }
+            //Cogemos los datos de cada departamento
             NodeList departamentos = el.getElementsByTagName("departamento");
             for (int i = 0; i < departamentos.getLength(); i++) {
                 Node ni = departamentos.item(i);
                 Element ele = (Element) ni;
                 Departamento dep = new Departamento(ele.getAttribute("etq"), ele.getAttribute("nombre"));
-
+                //anadimos el departamento a la base de datos
                 anadirDepartamentoBD(dep);
 
                 NodeList epigrafes = ele.getElementsByTagName("epigrafe");
                 Epigrafe epi = new Epigrafe();
 
-                //System.out.println("\t"+ele.getAttribute("nombre"));
+                //Cogemos los datos de cada epigrafe
                 for (int j = 0; j < epigrafes.getLength(); j++) {
                     Epigrafe epig;
 
                     Node nj = epigrafes.item(j);
                     Element epigrafe = (Element) nj;
                     NodeList items = epigrafe.getElementsByTagName("item");
-                    //System.out.println("\t\t"+epigrafe.getAttribute("nombre"));
                     epig = new Epigrafe(epigrafe.getAttribute("nombre"));
+                    
+                    //anadimos el epigrafe a la base de datos
                     anadirEpigrafeBD(epig);
+                    
+                    //anadimos la relacion departamento epigrafe
                     RelDepEpi rel = new RelDepEpi(epig.getNombre(), dep.getEtq());
                     rel.setDepartamento(dep);
                     rel.setEpigrafe(epig);
                     anadirREL(rel);
+                    //cogemos todas las oposiciones de cada par epigrafe departamento
                     for (int y = 0; y < items.getLength(); y++) {
                         Node ny = items.item(y);
                         Element item = (Element) ny;
@@ -104,9 +116,9 @@ public class OpoDB {
                         String xmlurl = "https://boe.es" + item.getElementsByTagName("urlXml").item(0).getTextContent();
                         String pdfurl = "https://boe.es";
                         pdfurl += getPdfURL(xmlurl);
-
+                        
+                        //creamos la oposicion y sus relaciones
                         Date f = Date.valueOf(Integer.valueOf(fecha.substring(0, 4)) + "-" + Integer.valueOf(fecha.substring(4, 6)) + "-" + Integer.valueOf(fecha.substring(6)));
-                        //Date f = new Date(Integer.valueOf(fecha.substring(0, 4)),Integer.valueOf(fecha.substring(4, 6)),Integer.valueOf(fecha.substring(6)));
                         String idOpo = item.getAttribute("id");
                         Oposicion opo = new Oposicion(idOpo, f, item.getAttribute("control"), pdfurl, xmlurl, titulo.toString());
 
@@ -127,7 +139,6 @@ public class OpoDB {
                             }
                         }
 
-                        //System.out.println("\t\t\t"+item.getAttribute("isd"));
                     }
 
                 }
@@ -192,7 +203,7 @@ public class OpoDB {
     public static void getOposicion(String urlParte) {
         String url = "boe.es" + urlParte;
     }
-
+    //recogemos la seccion con las oposiciones
     public static Element getSeccionOposiciones(Element e) {
         Element el = null;
         NodeList nl = e.getElementsByTagName("seccion");
